@@ -1,0 +1,12 @@
+.login{width:90vw;margin: 30px auto;}
+.login-title{font-size:22px;padding-bottom: 20px;color: #1989FA;}
+.inp{margin:30px 0 20px;}
+.inp>.van-cell{background-color: #f7f7f7;border-radius: 5px;}
+.inp.code>.van-cell{width:50%;display: inline-block;}
+.inp p{padding:8px 4px 2px;color:#666}
+.code{display: flex;align-items: center;}
+.codeimg{height: 40px;padding-left: 10px;}
+.code-btn{margin-left:10px;}
+.code-btn::after{border-radius: 14px;}
+.reg-node{display: flex; justify-content: space-between;padding:10px 20px}
+.reg-node a{color: #666;}
