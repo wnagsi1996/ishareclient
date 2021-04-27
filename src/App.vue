@@ -1,32 +1,54 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+	  <keep-alive :include="keepAliveName">
+		  <router-view />
+	  </keep-alive>
   </div>
 </template>
-
+<script>
+	import {mapGetters} from 'vuex'
+	export default({
+		name:'App',
+		computed:{
+			...mapGetters([
+				'keepAliveName'
+			])
+		}
+	})
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html{
+	overflow-y: scroll;
+}
+body{
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	overflow: hidden;
+	font-size: 14px;
+}
+*{
+	font-size:14px
+}
+:root {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-#nav {
-  padding: 30px;
+:root body {
+  position: absolute;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+h1,h2,h3,h4,h5,h6{
+	margin:0;
+	padding: 0;
+	font-weight: normal;
 }
+a{text-decoration: none;}
+ul,li,p{margin: 0;padding: 0;list-style-type: none;}
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+.help-info{width: 96vw;margin: 10px auto;line-height: 24px;font-size:16px;}
+.help-info h4{font-size: 16px;margin: 20px 0 5px;font-weight: bold;}
+.help-info img{width: 100%;}
+
 </style>
