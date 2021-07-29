@@ -6,7 +6,7 @@
 			</template> -->
 		</Header>
 		<div class="address-list">
-			<addressItem v-for="item in list" :key="item.id" :addressInfo="item" :isPay="isPay"></addressItem>
+			<addressItem v-for="item in list" :key="item.id" :addressInfo="item"></addressItem>
 		</div> 
 		<div class="add-btn">
 			<van-button type="danger" round block @click="onAdd">Add Address</van-button>
@@ -34,13 +34,20 @@
 			if(from.path=='/payment'){
 				next(vm=>{
 					vm.isPay=true; 
+					vm.$store.commit('address/SET_ISPAY',true)
 				})
 			}else{
 				next()
 			}
 		},
+		beforeRouteLeave(to,from,next) {
+			if(to.path!='/addaddress'){
+				this.$store.commit('address/SET_ISPAY',false)
+			}
+			next()
+		},
 		computed:{
-			...mapGetters(['addressList'])
+			...mapGetters(['addressList','addressIsPay'])
 		},
 		created() {
 			this.getAddress();
@@ -53,10 +60,6 @@
 				}else{
 					this.list=this.addressList
 				}
-			},
-			//点击地址触发
-			onSel(item){
-				console.log(item)
 			},
 			//添加地址
 			onAdd(){

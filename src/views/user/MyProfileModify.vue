@@ -114,10 +114,10 @@
 				let userCenterInfo=this.userCenterInfo;
 				if(Object.keys(userCenterInfo).length==0){
 					this.$store.dispatch('user/getUserCenterInfo').then(res=>{
-						this.sex=this.columns.find((val)=>{ return res.sex==val.value});console.log(this.sex)
+						this.sex=this.columns.find(val=> res.sex==val.value);
 					})
 				}else{
-					this.sex=this.columns.find((val)=>{ return userCenterInfo.sex==val.value})
+					this.sex=this.columns.find(val=> userCenterInfo.sex==val.value)
 				}
 			},
 			//弹出框确认

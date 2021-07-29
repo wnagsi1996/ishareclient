@@ -15,6 +15,10 @@ const product={
 	getSCProductInfo(params){
 		return get(`${base.ajaxhandler}?cmd=getSCProductInfo`,params)
 	},
+	//商品详情获取拼团信息
+	getSCPTOrderInfo(params){
+		return get(`${base.ajaxhandler}?cmd=getSCPTOrderInfo`,params)
+	},
 	//获取是否关注商品
 	getSaleFocus(params){
 		return get(`${base.ajaxhandler}?cmd=getSaleFocus`,params)
@@ -43,6 +47,10 @@ const product={
 	Get_MyCarSCProductsSaleList_PT(params){
 		return get(`${base.WebHandler}?cmd=Get_MyCarSCProductsSaleList_PT`,params)
 	},
+	//获取拼团订单信息
+	getPDProductOrder_FreeWait(params){
+		return get(`${base.WebHandler}?cmd=getPDProductOrder_FreeWait`,params)
+	},
 	//获取抵用券
 	getMaxVoucher(params){
 		return get(`${base.WebHandler}?cmd=getMaxVoucher`,params)
@@ -54,6 +62,10 @@ const product={
 	//支付
 	CommitPay_SC(params){
 		return post(`${base.WebHandler}?cmd=CommitPay_SC`,params)
+	},
+	//拼团支付
+	CommitPay_PT(params){
+		return post(`${base.WebHandler}?cmd=CommitPay_PT`,params)
 	},
 	//拼单帮助未登录用户看的产品信息
 	getPDProductOrderInfo(params){
@@ -107,9 +119,21 @@ const product={
 	cancelUserStoreFocus(params){
 		return get(`${base.WebHandler}?cmd=cancelUserStoreFocus`,params)
 	},
+	//店铺详情
+	getUserStoreAboutInfoByStoreID(params={}){
+		return get(`${base.WebHandler}?cmd=getUserStoreAboutInfoByStoreID`,params)
+	},
 	// 意见反馈
 	ComiitSuggest(params){
 		return get(`${base.WebHandler}?cmd=ComiitSuggest`,params)
+	},
+	//帮助页面
+	getPDProductOrder_FreeHelp(params){
+		return get(`${base.WebHandler}?cmd=getPDProductOrder_FreeHelp`,params)
+	},
+	//帮助页面
+	getPDProductOrder_Groups(params){
+		return get(`${base.WebHandler}?cmd=getPDProductOrder_Groups`,params)
 	}
 }
 

@@ -183,7 +183,7 @@
 							fssj=fssj.replace(/-/,'\/');
 							fcffssj=fcffssj.replace(/-/,'\/');
 						}
-						this.time=getSecondByDateSub(fssj,fcffssj);
+						this.newtime=getSecondByDateSub(fssj,fcffssj);
 						let timer=setInterval(()=>{
 							this.newtime=this.counDown(this.newtime)
 							if(this.newtime==0){

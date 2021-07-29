@@ -3,8 +3,8 @@
 	  <van-list v-model="loading" :finished="finished" finished-text="No more data" @load="onLoad">
 	    <div class="love-item">
 			<div class="love-item-info infinite-list-item" v-for="(item,index) in productList" :key="index">
-				<router-link :to="item | urlCompile">
-					<van-image :src="item.pimg"  fit="scale-down"></van-image>
+				<router-link :to="item | urlCompile" :replace="replace">
+					<van-image :src="item.pimg" lazy-load fit="scale-down"></van-image>
 					<p class="ptitle" v-if="item.ptitle">{{item.ptitle}}</p>
 					<template v-if="item.price"> <!--免费领取-->
 						<span class="py">{{'$'+item.price}}</span>
@@ -15,7 +15,6 @@
 						<span class="py">{{'$'+item.pscjg}}</span>
 						<span class="px">{{'$'+item.pjg}}</span>
 					</template>
-					
 				</router-link>
 			</div>
 		</div>
@@ -37,6 +36,10 @@
 				default:new Array()
 			},
 			productTotal:{
+				type:Boolean,
+				default:false
+			},
+			replace:{
 				type:Boolean,
 				default:false
 			}
@@ -83,7 +86,7 @@
 			urlCompile:(item)=>{
 				let newurl=item.ptitle.replace(/ /g, '-').replace(/'/g, '').replace(new RegExp('/','gm'), '-').replace(/:/g, '-').replace(/,/g, '-')
 				
-				return '/productdetail/'+newurl+'/'+item.pid
+				return '/product?pid='+item.pid
 			}
 		}
 	})

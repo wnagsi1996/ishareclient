@@ -6,7 +6,8 @@
 				<shopInfo :id="id" :storeName.sync="storeName" :ishome="ishome"></shopInfo>
 			</div>
 			<div class="store-node-bottom">
-				
+				<div v-if="content!=''" v-html="content"></div>
+				<div v-else>Store introduction is empty</div>
 			</div>
 		</div>
 	</div>
@@ -29,14 +30,19 @@
 			return{
 				id:'',
 				storeName:'',
-				ishome:false
+				ishome:false,
+				content:''
 			}
 		},
 		created(){
 			this.id=this.$route.params.id
-			
+			this.getDetail()
 		},
 		methods:{
+			async getDetail(){
+				const res=await this.$api.product.getUserStoreAboutInfoByStoreID({sid:this.id})
+				this.content=res.sjcontent;
+			}
 		}
 	})
 </script>

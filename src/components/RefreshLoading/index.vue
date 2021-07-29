@@ -41,19 +41,27 @@
 				this.$emit("load",'1')
 			},
 			onLoad(){
-				this.$emit("load")
+				
+				if(!this.finished){
+					this.$emit("load")
+					
+				}
 				
 			}
 		},
 		watch:{
 			list(newVal,oldVal){
+				
 				this.finished=false
 				this.loading=false
 				this.refreshing=false
 			},
 			ismore(newVal,oldVal){
+				console.log(newVal)
 				if(newVal){
 					this.finished=true
+					this.loading=false
+					this.refreshing=false
 				}
 			},
 			//监听该值变化，变化的同时把值传给父组件，防止二次刷新监听不到值变化一直重复加载

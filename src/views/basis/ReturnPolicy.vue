@@ -2,6 +2,7 @@
 	<div>
 		<Header title="Return Policy" />
 		<div class="help-info">
+			<h4>Return & Privacy Policy</h4>
 			<p>We want you to be completely satisfied with your purchase on iShare. Our 100% Guarantee means we're committed to providing customers with the most delightful shopping experience possible. We're always available and happy to help with any questions. If you need to request a refund, please contact our Customer Support Team within 30 days of delivery or latest estimated delivery date.</p>
 			<h4>How does the return policy work?</h4>
 			<p>To start a return, the button below will direct you to your Order History page. From there, simply choose the relevant item(s) and click on ‘Customer Support’ to communicate directly with our customer service team.</p>
@@ -19,5 +20,4 @@
 <script>
 </script>
 
-<style>
-</style>
+

@@ -2,9 +2,10 @@
 	<div>
 		<van-search v-model="searchval" placeholder="Search Product" @search="search" />
 		<van-tree-select
+		class="tree-select"
 		  :items="item"
-		  height="100vh"
 		  :active-id.sync="activeId"
+		  :height="treeHeight"
 		  :main-active-index.sync="activeIndex"
 		  @click-item="hankmenu"
 		/>
@@ -32,7 +33,13 @@
 				searchval:''
 			}
 		},
-		mounted() {
+		computed:{
+			treeHeight(){
+				const winHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				return winHeight-105+'px'
+			}
+		},
+		created() {
 			this.item=menu
 		},
 		methods:{

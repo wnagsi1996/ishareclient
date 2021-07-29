@@ -137,12 +137,15 @@
 							}else{
 								this.$toast.fail(res.fsmes)
 							}
+							this.disabled=false
 						}).catch(xhr=>{
 							this.$toast.fail('Register Fail')
+							this.disabled=false
 						})
 					}
 					else{
 						this.$toast.fail('Failed to create encrypted data. Please try again！')
+						this.disabled=false
 					}
 				}).catch((xhr)=>{
 					console.log(xhr)

@@ -20,8 +20,9 @@
 				</div>
 			</template>
 		</van-nav-bar>
-		<van-popup v-model="show" position="left" :style="{ width:'80vw',height: '100vh' }">
-			<component :is="HomeUserContent"></component>
+		<van-popup v-model="show" position="left" :style="{ width:'80vw',height: '100vh',overflow:'auto' }">
+			<!-- <component :is="HomeUserContent"></component> -->
+			<HomeUserContent></HomeUserContent>
 		</van-popup>
 		<van-share-sheet title="Share with your friends" v-model="showShare" :options="shareOptions" @select="selShare" />
 	</div>
@@ -37,7 +38,7 @@
 		  [NavBar.name]:NavBar,
 		  [Popup.name]:Popup,
 		  [ShareSheet.name]:ShareSheet,
-		 // HomeUserContent
+		  HomeUserContent:()=>import('@/components/HomeUserContent')
 	  },
 	  props:{
 		title:{
@@ -77,9 +78,6 @@
 	  methods:{
 		  //显示左边滑出
 		  showUserContent(){
-			  if(this.HomeUserContent==null){
-				  this.HomeUserContent=()=>import('@/components/HomeUserContent');
-			  }
 			 this.show=true 
 		  },
 		   //显示分享
@@ -156,6 +154,7 @@
 </script>
 
 <style scoped>
+	.header{position: relative;z-index: 2;}
 	.header-left{color: #666;}
 	.header-right{display: flex;}
 	.header-right-icon{width:50px;text-align: right}

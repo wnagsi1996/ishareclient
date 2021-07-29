@@ -87,52 +87,43 @@
 					price:skudata.selectedSkuComb.price/100,
 					num:skudata.selectedNum
 				}
-				
-				if(this.isBtn==3){  //拼单
-					 let zfinfos = 0.00 + "," + 0.00 + "," + 0 + "," + 0.00 + "," + 0.00 + "," + 0.00 + "," + 0.00 + "," + 0 + "," + 0.00 + "," + 0;
-					 let zfobj = xdsku + "|1|0|" + zfinfos + "|0|0|" + ""; //支付数据
-					 this.$api.product.CommitPay_PD({zfobj,pdorderno:this.orderno}).then(res=>{
-						 if(res!=''){
-							 switch(res.fsstate){
-								 case 0:
-									if(res.fsmes==''){  //单纯帮助
-										this.$toast('Help Success');
-										this.isHelp=true
-									}else{  //帮助自己并发起拼单
-										this.$router.push({path:'/groupswait/'+res.fsmes+'?nc='+this.orderInfo.loginname+'pdnum=1'})
-									}
-									break;
-								case 1:
-									this.$toast(res.fsmes);
-									break;
-								case 2:
-									this.$router.push({path:'/login'});
-									break;
-							 }
-							 if (res.fsstate != 0) {
-								 if (res.fsstate == 2){ //登录超时
-									 this.$router.push({path:'/login'})
-									 return
-								 }
-							 }else{
-								 this.$router.push({path:'/groupswait/'+res.fsmes})
+				 let zfinfos = 0.00 + "," + 0.00 + "," + 0 + "," + 0.00 + "," + 0.00 + "," + 0.00 + "," + 0.00 + "," + 0 + "," + 0.00 + "," + 0;
+				 let zfobj = xdsku + "|1|0|" + zfinfos + "|0|0|" + ""; //支付数据
+				 this.$api.product.CommitPay_PD({zfobj,pdorderno:this.orderno}).then(res=>{
+					 if(res!=''){
+						 switch(res.fsstate){
+							 case 0:
+								if(res.fsmes==''){  //单纯帮助
+									this.$toast('Help Success');
+									this.isHelp=true
+								}else{  //帮助自己并发起拼单
+									this.$router.push({path:'/groupswait/'+res.fsmes+'?nc='+this.orderInfo.loginname+'pdnum=1'})
+								}
+								break;
+							case 1:
+								this.$toast(res.fsmes);
+								break;
+							case 2:
+								this.$router.push({path:'/login'});
+								break;
+						 }
+						 if (res.fsstate != 0) {
+							 if (res.fsstate == 2){ //登录超时
+								 this.$router.push({path:'/login'})
 								 return
 							 }
+						 }else{
+							 this.$router.push({path:'/groupswait/'+res.fsmes})
+							 return
 						 }
-					 }).catch(xhr=>{
-						 
-					 })
-				}else if(this.isBtn==2){  //拼团
-					this.$router.push({path:'/payment',query:{skus:xdsku,pt:skudata.selectedNum}})
-				
-				}else{  //正常购买
-					this.$store.commit('cart/SET_CART',cartInfo);
-					this.$router.push({path:'/payment',query:{skus:"'"+xdsku+"'"}})
-				}	
+					 }
+				 }).catch(xhr=>{
+					 
+				 })
 			},
 			//打开图片产品地址
 			onProduct(){
-				this.$router.push({path:'/productdetail/'+this.orderInfo.pname+'/'+this.orderInfo.pid})
+				this.$router.push({path:'/product?pid='+this.orderInfo.pid})
 			},
 			//获取拼单信息
 			getPDOrderInfo(){
@@ -148,7 +139,7 @@
 			},
 			//获取商品信息
 			getProductAttr(pid){
-				this.$api.product.getSCProductColumnsSKU({pdi}).then(res=>{
+				this.$api.product.getSCProductColumnsSKU({pid}).then(res=>{
 					console.log(res);
 					if(res!=""){
 						this.intAttrdata=res;

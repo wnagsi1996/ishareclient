@@ -1,21 +1,24 @@
 <template>
 	<div>
-		<van-tabbar v-model="active" route placeholder @change="onChange">
-		  <van-tabbar-item name="home" replace to="/" icon="home-o">Home</van-tabbar-item>
-		  <van-tabbar-item name="productlist" replace to="/menulist" icon="goods-collect-o">Product</van-tabbar-item>
-		  <van-tabbar-item name="cart" replace to="/cart" icon="shopping-cart-o">Cart</van-tabbar-item>
-		  <van-tabbar-item name="user" replace icon="manager-o">User</van-tabbar-item>
+		<van-tabbar v-model="active" placeholder @change="onChange">
+			<van-tabbar-item name="home" icon="home-o">Home</van-tabbar-item>
+			<van-tabbar-item name="productlist" icon="goods-collect-o">Product</van-tabbar-item>
+			<van-tabbar-item name="cart" icon="shopping-cart-o">Cart</van-tabbar-item>
+			<van-tabbar-item name="user" icon="manager-o">User</van-tabbar-item>
 		</van-tabbar>
 	</div>
 </template>
 
 <script>
-	import { Tabbar, TabbarItem } from 'vant';
-	export default({
-		name:'NavTab',
-		components:{
-			[Tabbar.name]:Tabbar,
-			[TabbarItem.name]:TabbarItem
+	import {
+		Tabbar,
+		TabbarItem
+	} from 'vant';
+	export default ({
+		name: 'NavTab',
+		components: {
+			[Tabbar.name]: Tabbar,
+			[TabbarItem.name]: TabbarItem
 		},
 		data(){
 			return{
@@ -23,36 +26,37 @@
 			}
 		},
 		created() {
-			let path=this.$route.path;console.log(this.$route.path)
-			switch(path){
+			switch (this.$route.path) {
 				case '/':
-					this.active='home';
+					this.active = 'home';
 					break;
 				case '/menulist' || '/productlist':
-					this.active='menulist';
+					this.active = 'productlist';
 					break;
-				// case '/productlist':
-				// 	this.active='productlist';
-				// 	break;
 				case '/cart':
-					this.active='cart';
+					this.active = 'cart';
 					break;
-				case '/user':
-					this.active='user';
+				case '/usercenter':
+					this.active = 'user';
 					break;
 			}
 		},
-		methods:{
-			onChange(val){
-				if(val=='user'){
-					let token=this.$store.getters.token;  //获取是否有登录
-					if(!token){
-						this.$router.push({path:'/login',query:{plan:'/user'}})
-					}else{
-						this.$router.push('/user')
-					}
+		methods: {
+			onChange(val) {
+				switch (val) {
+					case 'home':
+						this.$router.push('/')
+						break;
+					case 'productlist':
+						this.$router.push('/menulist')
+						break;
+					case 'cart':
+						this.$router.push('/cart')
+						break;
+					case 'user':
+						this.$router.push('/usercenter')
+						break;
 				}
-				
 			}
 		}
 	})

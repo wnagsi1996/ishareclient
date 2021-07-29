@@ -7,7 +7,7 @@
 					<h3>Shpping Address</h3>
 					<van-icon name="edit" @click="toAddress" />
 				</div>
-				<div class="payaddress-info">
+				<div class="payaddress-info" v-if="address.name!=''">
 					<p>{{address.name}}</p>
 					<p>{{address.phone}}</p>
 					<p>{{address.txt}}</p>
@@ -28,14 +28,14 @@
 			
 			<van-cell-group>
 			  <van-cell title="Product Total" :value="'$'+totalPrice" />
-			  <van-cell v-if="coupon.money>0" title="Coupon" is-link :value="coupon.money" />
+			  <van-cell v-if="couponBool" title="Coupon" is-link :value="coupon.money==0?'Select':coupon.money" @click="showActionSheet=true" />
 			  <van-cell v-if="integral>0" title="Integral Exchange" :value="integral" />
 			  <van-cell v-if="income>0" title="Income" :value="income" />
-			  <van-cell v-if="balance>0" title="Balance Payment" :value="balance" />
-			  <van-cell title="Pay Extra" :value="'$'+pay" />
+			  <van-cell v-if="balancePay>0" title="Balance Payment" :value="balancePay" />
+			  <van-cell v-if="pay>0" title="Pay Extra" :value="'$'+pay" />
 			</van-cell-group>
 			<br />
-			<template v-if="showpay">
+			<template v-if="pay>0">
 				<van-button v-if="isweixin" type="primary" :disabled="disabled" block size="small" @click="paysubmit1">WeChat Pay</van-button>
 				<van-button v-else type="info" :disabled="disabled" block size="small" @click="paysubmit1">Payapl Pay</van-button>
 			</template>
@@ -43,15 +43,17 @@
 				<van-button type="info" :disabled="disabled" block size="small" @click="paysubmit1">PAY NOW</van-button>
 			</template>
 		</div>
+		<van-action-sheet v-model="showActionSheet" :actions="actions" @select="onSheetSelect" />
 	</div>
 </template>
 
 <script>
-	import{mapGetters} from 'vuex'
+	import{mapGetters,mapMutations} from 'vuex'
 	import {cmdEncrypt} from "@/assets/js/RSAz.js"
 	import Header from "@/components/Header"
-	import {Card,Tag,Field,Cell, CellGroup,Button } from 'vant'
+	import {Card,Tag,Field,Cell, CellGroup,Button,ActionSheet  } from 'vant'
 	import { isWeiXin } from '@/utils/isWeixin.js'
+	import {wxPayjsApiCall} from '@/utils/public.js'
 	export default({
 		name:'PayMent',
 		components:{
@@ -61,21 +63,17 @@
 			[Field.name]:Field,
 			[Cell.name]:Cell,
 			[CellGroup.name]:CellGroup,
-			[Button.name]:Button
+			[Button.name]:Button,
+			[ActionSheet.name]:ActionSheet
 		},
 		data(){
 			return{
 				cartproduct:[],
 				remarkval:'',
 				totalPrice:0,   //产品总价
-				coupon:{   //抵用券
-					id:0,
-					money:0
-				},
 				income:0,  //收入支付
 				integral:0,  //积分支付
-				balance:0,  //余额支付
-				pay:0  ,//剩下支付
+				couponBool:false,
 				isweixin:isWeiXin(),
 				disabled:false,
 				address:{
@@ -87,9 +85,11 @@
 				iforder:true  ,//true订单无变动  false订单变动
 				skus:'',
 				ifsw:0  ,//是否是实物
-				ifpt:'',
-				gmfs:''
-				
+				ifpt:'',//是否拼团
+				gmfs:'', //购买份数
+				showActionSheet:false,
+				actions:[{ name: 'Select Coupon' }, { name: 'Cancel Coupon' }],
+				ptorderno:this.$route.query.ptorderno || ''
 			}
 		},
 		beforeRouteEnter(to,from,next) {
@@ -107,27 +107,42 @@
 		created() {
 			this.getCartInfo();
 			this.getAddress();
+			if(this.coupon.id!=0){
+				this.couponBool=true
+			}
 		},
 		activated(){
 			this.getAddress(this.addressid);
 			
 		},
-		mounted() {
-			
-		},
 		computed:{
 			...mapGetters([
 				'keepAliveName',
-				'addressid'
+				'addressid',
+				'coupon'
 			]),
-			showpay(){
-				let totalmoney=eval(this.coupon.money)+eval(this.income)+eval(this.integral/100)+eval(this.balance);
-				if(this.totalPrice>totalmoney){
-					return true
-				}else{
-					return false
+			//余额支付
+			balancePay(){
+				if(this.income>0){ //判断余额大于0，不是直接返回0
+					let money=Number(this.totalPrice)-Number(this.coupon.money)-Number(this.integral/100); //总价-抵用券-积分
+					if(this.income>=money){  //判断余额大于还需要支付的金额，直接返回支付的金额，如果小于直接返回余额
+						return money;
+					}else{
+						return this.income;
+					}
 				}
-			}
+				return 0
+			},
+			//计算剩余第三方支付
+			pay(){
+				let money=Number(this.coupon.money)+Number(this.integral/100)+Number(this.income)
+				if(money>=this.totalPrice){
+					return 0;
+				}else{
+					return (Number(this.totalPrice)-money).toFixed(2);
+				}
+				
+			},
 		},
 		methods:{
 			//获取产品信息
@@ -183,9 +198,10 @@
 											this.disabled=false
 											return;
 										}
+										this.gmfs+=n.num+',';
 									}
 									//this.gmfs+="'" + n.num + "',";
-									this.gmfs+=n.num+',';
+									
 								})
 							}
 							
@@ -219,24 +235,15 @@
 					this.income=res.ye
 					this.integral=res.jf
 						if (res.vid != 0) {
-							this.coupon.money=res.vprice
-							this.coupon.id=res.vid
+							this.addCoupon({id:res.vid,money:res.vprice});
+							this.couponBool=true
 						}
 					}
-					this.computeMoney()
 				}).catch(xhr=>{
 					
 				})
 			},
-			//计算剩余支付
-			computeMoney(){
-				if(this.income>=this.totalPrice){
-					this.pay=0;
-				}else{
-					this.pay=eval(this.totalPrice)-eval(this.coupon.money)-eval(this.income)-eval(this.integral)-eval(this.balance);
-				}
-				
-			},
+			
 			//获取地址
 			getAddress(addressid=''){
 				this.$api.product.GetAddressByAddressID({addressid}).then(res=>{
@@ -259,7 +266,7 @@
 				let paypalpage=0;
 				let zffs=0
 				let ifwx=1  //微信环境1  非微信0
-				if(this.showpay){
+				if(this.pay>0){
 					if(this.isweixin){ //微信环境
 					    paypalpage=1
 					    zffs=1;
@@ -272,7 +279,8 @@
 						}
 					}else{  //paypal
 						paypalpage=0
-						zffs=2
+						zffs=2;
+						ifwx=0;
 					}
 				}else{   //余额
 					if(this.address.id=='0'){
@@ -285,91 +293,118 @@
 					ifwx=0
 				}
 				
-				let paybalance=this.showpay?this.income:this.totalPrice
+				this.gmfs=this.ifpt?1:this.gmfs.substring(0,this.gmfs.length-1)
 				
-				this.gmfs=this.gmfs.substring(0,this.gmfs.length-1)
-				
-				let zfinfos = this.totalPrice.toFixed(2) + "," + this.coupon.money + "," + this.coupon.id + "," + this.integral + "," + this.integral/100 + "," + paybalance + "," + this.pay + ",0,0," + paypalpage;
+				let zfinfos = this.totalPrice.toFixed(2) + "," + this.coupon.money + "," + this.coupon.id + "," + this.integral + "," + this.integral/100 + "," + this.balancePay + "," + this.pay + ",0,0," + paypalpage;
 				let zfobj = this.skus + "|" + this.gmfs + "|" + zffs + "|" + zfinfos + "|" + this.ifsw + "|" + this.address.id + "|" + this.remarkval; //支付数据
-				//console.log(zfobj);return;
-				let strPublicKeyExponent = "", strPublicKeyModulus = "",zfobj1 = zfobj,zfobj2="";
+				 
+				let zfobj1 = zfobj,zfobj2="";
 				//加密
-				await this.$api.verify.CreateRSAKey().then(res=>{
-					if(res!=null && res!=''){
-						if (res.rescode == 0) {
-							strPublicKeyExponent = res.strPublicKeyExponent;
-							strPublicKeyModulus = res.strPublicKeyModulus;
-							if (zfobj.length > 117) {
-								zfobj1 = zfobj.substring(0, 117);
-								zfobj2 = zfobj.substring(117);
-							}
-							zfobj1 = cmdEncrypt(zfobj1, strPublicKeyExponent, strPublicKeyModulus, 1);
-							if (zfobj2 != ""){
-								zfobj2 = cmdEncrypt(zfobj2, strPublicKeyExponent, strPublicKeyModulus, 1);
-							}
-						}else{
-							this.$toast('Failed to create encrypted data. Please try again.');
-							this.disabled=false;
-							return;
+				const res = await this.$api.verify.CreateRSAKey()
+				if(res!=null && res!=''){
+					if (res.rescode == 0) {
+						if (zfobj.length > 117) {
+							zfobj1 = zfobj.substring(0, 117);
+							zfobj2 = zfobj.substring(117);
 						}
-						
-						let params={
-							zfobj1,
-							zfobj2,
-							ifwx,
-							ifanonymous:0,
-							password:'',
-							mwpassword:'',
-							qdbs:''
+						zfobj1 = cmdEncrypt(zfobj1, res.strPublicKeyExponent, res.strPublicKeyModulus, 1);
+						if (zfobj2 != ""){
+							zfobj2 = cmdEncrypt(zfobj2, res.strPublicKeyExponent, res.strPublicKeyModulus, 1);
 						}
-						
-						//支付
-						this.$api.product.CommitPay_SC(params).then(resjson=>{
-							console.log(resjson)
-							if(resjson!=null && resjson!=''){
-								if (resjson.fsstate != 0) {
-									this.$toast(resjson.fsmes);
-									if(resjson.fsstate==2){  //登录超时
-										this.$router.push({path:'/login',query:{plan:this.$route.path}})
-									}
-									if(resjson.fsstate==3){  //抵用券没办法用，还原
-										this.coupon.money=0
-										this.coupon.id=''
-									}
-								}else{
-									let sku=this.skus.split(',');
-									sku.forEach(n=>{
-										this.$store.commit('cart/DEL_CART',n)
-									})
-									if(resjson.fzffs==0){  //余额支付
-										//this.$toast('Successful Payment.');
-										this.$router.push({path:'/paymentsuccessful'});
-									}else if(resjson.fzffs==2){  //PayPal支付
-										window.location.href = resjson.fsmes;
-									}else{
-										//微信支付
-									}
-								}
-							}
-							this.disabled=false;
-						}).catch(xhr=>{
-							this.$toast('The shopping cart is empty and cannot be submitted for payment.');
-							this.disabled=false;
-						})
-						
 					}else{
 						this.$toast('Failed to create encrypted data. Please try again.');
 						this.disabled=false;
 						return;
 					}
-				}).catch(xhr=>{
+					
+					let params={
+						zfobj1,
+						zfobj2,
+						ifwx,
+						ifanonymous:0,
+						password:'',
+						mwpassword:'',
+						qdbs:''
+					}
+					
+					//拼团购买支付
+					if(this.ifpt){
+						Object.assign(params,{ptorderno:this.ptorderno})
+						var resjson=await this.$api.product.CommitPay_PT(params)
+					}else{//正常购买支付
+						var resjson=await this.$api.product.CommitPay_SC(params)
+					}
+					if(resjson!=null && resjson!=''){
+						if (resjson.fsstate != 0) {
+							this.$toast(resjson.fsmes);
+							if(resjson.fsstate==2){  //登录超时
+								this.$router.push({path:'/login',query:{plan:this.$route.fullPath}})
+							}
+							if(resjson.fsstate==3){  //抵用券没办法用，还原
+								this.coupon.money=0
+								this.coupon.id=''
+							}
+						}else{
+							let sku=this.skus.split(',');
+							sku.forEach(n=>{
+								this.$store.commit('cart/DEL_CART',n)
+							})
+							if(resjson.fzffs==0){  //余额支付
+								//this.$toast('Successful Payment.');
+								if(this.ifpt){
+									this.$router.push({path:`/groupswaitbuy/${resjson.fsmes}`});
+								}else{
+									this.$router.push({path:'/paymentsuccessful'});
+								}
+								
+							}else if(resjson.fzffs==2){  //PayPal支付
+								window.location.href = resjson.fsmes;
+							}else{
+								//微信支付
+								 if (resjson.fzffs == 1) { //第三方支付-微信
+									//判断是否在微信浏览器
+									var payurl = "";
+									var ua = navigator.userAgent.toLowerCase();
+									var isWeixin = ua.indexOf('micromessenger') != -1;
+									if (!isWeixin) {
+										window.location.href = "/PayMent/WXPay/example/NativePayPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
+									}
+									else {
+										if (resjson.fwxpay == 0)
+											window.location.href = "/PayMent/WXPay/example/ProductPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
+										else
+											wxPayjsApiCall(resjson.fwxJsApiParam, "/paymentsuccessful?orderno=" + resjson.fsmes, "/myorder");
+									}
+								}
+							}
+						}
+					}
+					this.disabled=false;
+				}else{
 					this.$toast('Failed to create encrypted data. Please try again.');
 					this.disabled=false;
 					return;
-				})
+				}
+				// }).catch(xhr=>{
+				// 	this.$toast('Failed to create encrypted data. Please try again.');
+				// 	this.disabled=false;
+				// 	return;
+				// })
 				
-			}
+			},
+			onSheetSelect(item){
+				if(item.name=='Select Coupon'){
+					this.$router.push({path:'/mycoupon',query:{isPay:1}})
+				}else{
+					this.addCoupon({id:0,money:0})
+				}
+				this.showActionSheet=false;
+			},
+			...mapMutations({
+				addCoupon:'pay/SET_COUPON'
+			})
 		},
+		
 		beforeRouteLeave(to,from,next){
 			//判断下一页是否是地址，是就加缓存，不是就清除缓存
 			if(to.path!='/address'){

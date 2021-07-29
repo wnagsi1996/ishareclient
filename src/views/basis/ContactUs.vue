@@ -78,7 +78,7 @@
 				return val;
 			},
 			//提交
-			onSubmit(val){console.log(val)
+			onSubmit(val){
 				this.disabled=true;
 				let params={
 					suggestContent:val.message,

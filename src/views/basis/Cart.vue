@@ -67,7 +67,7 @@
 				cartShow:false
 			}
 		},
-		mounted() {
+		created() {
 			this.getCartInfo()
 		},
 		methods:{
@@ -100,7 +100,6 @@
 				}
 			},
 			onSubmit(){
-				
 				let skus=''
 				this.cartproduct.forEach(item=>{
 					if(item.check){

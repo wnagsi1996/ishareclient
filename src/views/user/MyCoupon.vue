@@ -9,7 +9,7 @@
 		</van-tabs>
 		<RefreshLoading :ismore.sync="ismore" :list="list" @load="load">
 			<div class="coupon">
-				<div class="coupon-node" v-for="(item,index) in list" :key="index">
+				<div class="coupon-node" v-for="(item,index) in list" :key="index" @click="_handCoupon(item)">
 					<div class="coupon-node-money">
 						<p>{{item.vprice}}</p>
 						<p>USD</p>
@@ -31,6 +31,7 @@
 <script>
 	import RefreshLoading from '@/components/RefreshLoading'
 	import { Tab, Tabs } from 'vant';
+	import {mapMutations} from 'vuex'
 	export default({
 		name:'MyMember',
 		components:{
@@ -44,10 +45,13 @@
 				list:[],
 				index:0,
 				vtype:'0'    ,//-1全部  0待使用  1使用过  2过期
+				isPay:false  //是否支付页面点进来
 			}
 		},
 		created(){
-			
+			if(this.$route.query.isPay && this.$route.query.isPay==1){
+				this.isPay=true
+			}
 		},
 		methods:{
 			//加载数据
@@ -76,7 +80,16 @@
 					this.vtype=index;
 					this.load(1)
 				}
-			}
+			},
+			_handCoupon(item){
+				if(this.isPay && this.vtype==0){
+					this.addCoupon({id:item.vid,money:item.vminmoney});
+					this.$router.go(-1);
+				}
+			},
+			...mapMutations({
+				addCoupon:"pay/SET_COUPON"
+			})
 		},
 		filters:{
 			status(n){

@@ -31,8 +31,10 @@ export default new Vuex.Store({
 	  userCenterInfo: state => state.user.userCenterInfo,  //用户中心首页信息
 	  cart:state=>state.cart.cart,  //购物车
 	  addressList:state=>state.address.addressList, //地址列表
+	  addressIsPay:state=>state.address.isPay, //地址列表
 	  keepAliveName:state=>state.keepAliveName.nameList,  //缓存页面的name
 	  addressid:state=>state.pay.addressid   ,//收货地址id
+	  coupon:state=>state.pay.coupon   ,//抵用券
 	  shopIsLike:state=>state.shop.isLike,  //店铺页面是否关注
 	  shopProductList:state=>state.shop.productList,  //店铺产品列表
 	  shopInfo:state=>state.shop.storeInfo  ,//店铺信息

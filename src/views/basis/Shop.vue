@@ -33,7 +33,7 @@
 		},
 		data(){
 			return{
-				id:'',
+				id:this.$route.params.id,
 				// productList:[],
 				// productTotal:false,
 				// index:0,
@@ -44,13 +44,11 @@
 		beforeRouteEnter(to,from,next) {
 			next(vm=>{
 				if(vm.keepAliveName && !vm.keepAliveName.includes('Shop')){
-					
 					vm.SET_NAME_LIST('Shop');
 				}
 			})
 		},
 		created(){
-			this.id=this.$route.params.id;
 			this.SET_PID(this.id)
 		},
 		methods:{

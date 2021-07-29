@@ -81,7 +81,7 @@
 			urlCompile:(item)=>{
 				let newurl=item.title.replace(/ /g, '-').replace(/'/g, '').replace(new RegExp('/','gm'), '-').replace(/:/g, '-').replace(/,/g, '-')
 				
-				return '/dealsdetail/'+newurl+'/'+item.rid
+				return '/deals?rid='+item.rid
 			},
 			//价格
 			priceFiler:(price)=>{

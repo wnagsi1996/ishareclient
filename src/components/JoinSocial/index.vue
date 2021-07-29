@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<div class="join-social">
 		<div class="join-social-fb">
 			<div class="join-social-fbInfo join-social-info">
@@ -6,7 +6,7 @@
 				<span>Never miss out on hot deals</span>
 			</div>
 			<div class="join-social-btn">
-				<a>Join</a>
+				<a target="_blank" href="https://www.facebook.com/groups/CustomPrintingTshirtDesignWholesale">Join</a>
 			</div>
 		</div>
 		<div class="join-social-wx join-social-info">
@@ -17,8 +17,6 @@
 	</div>
 </template>
 
-<script>
-</script>
 
 <style scoped>
 	.join-social{padding: 10px;background-color: #fff;}

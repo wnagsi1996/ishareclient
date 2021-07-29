@@ -208,7 +208,7 @@
 				
 				let patrn1 = /^(?=.*?[a-zA-Z])(?=.*?[0-9])[a-zA-Z0-9]{6,16}$/;
 				if (!patrn1.test(value.pass1)) {
-					alert('The password format does not meet the requirements.');
+					this.$toast.fail('The password format does not meet the requirements.');
 					return false;
 				}
 				

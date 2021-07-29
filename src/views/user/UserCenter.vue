@@ -85,20 +85,17 @@
 					</a>
 				</li>
 			</ul>
-			<router-view />
 		</div>
 		<NavTab />
-		
 	</div>
 </template>
 
 <script>
 	import {mapGetters,mapMutations} from 'vuex'
-	import NavTab from '@/components/NavTab'
 	export default({
 		name:'UserCenter',
 		components:{
-			NavTab
+			NavTab:()=>import('@/components/NavTab')
 		},
 		computed:{
 			...mapGetters([
@@ -110,11 +107,16 @@
 		beforeRouteEnter(to,from,next){
 			
 			next(vm=>{
-				if(!vm.keepAliveName.includes('UserCenter')){
-					vm.$store.commit('keepAliveName/SET_NAME_LIST','UserCenter')
-					//vm.SET_NAME_LIST('UserCenter')
-				}
+				// if(!vm.keepAliveName.includes('UserCenter')){
+				// 	vm.$store.commit('keepAliveName/SET_NAME_LIST','UserCenter')
+				// 	//vm.SET_NAME_LIST('UserCenter')
+				// }
 			})
+		},
+		data(){
+			return{
+				loadNav:false
+			}
 		},
 		created(){
 			this.userInfo();

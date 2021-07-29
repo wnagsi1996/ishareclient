@@ -1,9 +1,13 @@
 import api from '@/api/index.js'
 const state={
-	addressList:[]
+	addressList:[],
+	isPay:false
 }
 
 const mutations={
+	SET_ISPAY(state,item){
+		state.isPay=item
+	},
 	SET_ADDRESS_LIST(state,item){
 		state.addressList=item;
 	},

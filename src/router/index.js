@@ -66,7 +66,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/productdetail/:title/:id',
+		path: '/product',
 		name: 'ProductDetail',
 		component: () => import('@/views/basis/ProductDetail.vue'),
 		meta: {
@@ -120,12 +120,32 @@ const routes = [
 		}
 	},
 	{
-		path: '/groupswaitbuy',
+		path: '/grouphelp/:orderno',
+		name: 'GroupHelp',
+		component: () => import('@/views/basis/GroupHelp.vue'),
+		meta: {
+			login: false,
+			title: 'Groups',
+			bjColor: '#f7f7f7'
+		}
+	},
+	{
+		path: '/groupsbuy/:orderno',
+		name: 'GroupsBuy',
+		component: () => import('@/views/basis/GroupBuy.vue'),
+		meta: {
+			login: false,
+			title: 'GroupsBuy',
+		}
+	},
+	{
+		path: '/groupswaitbuy/:orderno',
 		name: 'GroupsWaitBuy',
 		component: () => import('@/views/basis/GroupsWaitBuy.vue'),
 		meta: {
 			login: true,
 			title: 'GroupsWaitBuy',
+			bjColor: '#f7f7f7'
 		}
 	},
 	{
@@ -147,7 +167,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/dealsdetail/:title/:rid',
+		path: '/deals',
 		name: 'DealsDetail',
 		component: () => import('@/views/basis/DealsDetail.vue'),
 		meta: {
@@ -183,7 +203,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/user',
+		path: '/usercenter',
 		name: 'UserCenter',
 		component: () => import('@/views/user/UserCenter.vue'),
 		meta: {
@@ -433,6 +453,7 @@ const routes = [
 
 const router = new VueRouter({
 	mode: 'history',
+	base: "",
 	routes
 })
 

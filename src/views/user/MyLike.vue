@@ -9,6 +9,7 @@
 				  :price="item.spjg"
 				  :title="item.sptitle"
 				  :thumb="item.pimg"
+				  :thumb-link="item | url"
 				  currency="$"
 				>
 					<template #footer>
@@ -44,16 +45,14 @@
 					this.index=0
 				}
 				this.$api.user.getUserSCFocusSaleList({pageindex:this.index}).then(res=>{
-					if(res!=''){
+					if(res.rows.length>0){
 						if(i!=0){
 							this.list=[]
+							this.ismore=false
 						}
 						this.index++
 						this.list=this.list.concat(res.rows)
 					}else{
-						this.$toast('Data loading error')
-					}
-					if(res.rows.length==0){
 						this.ismore=true
 					}
 				}).catch(xhr=>{
@@ -78,11 +77,16 @@
 					}
 				})
 			}
+		},
+		filters:{
+			url(item){
+				return `product?pid=${item.spid}`
+			}
 		}
 	})
 </script>
 
 <style scoped>
-	.gifts-node{width: 90vw;background-color: #fff;border-radius: 5px;margin:10px auto;padding:10px}
-	.van-card{background-color: #fff;}
+	.gifts-node{width: 96vw;border-radius: 5px;margin:10px auto;}
+	.van-card{background-color: #fff;border-radius: 5px;}
 </style>

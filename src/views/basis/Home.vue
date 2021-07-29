@@ -14,9 +14,9 @@
 	  			<div class="featured-item-title">
 	  				{{item.name}}
 	  			</div>
-	  			<div class="featured-item">
+	  			<div class="featured-item"  @click="_handToCate(item.id)">
 	  				<div class="featured-item-a" v-for="(itemimg,index) in item.detail" :key="index">
-	  					<img v-if="index<2" :src="itemimg.imgsrc" />
+	  					<van-image lazy-load fit="scale-down" v-if="index<2" :src="itemimg.imgsrc" />
 	  				</div>
 	  			</div>
 	  		</div>
@@ -29,7 +29,7 @@
 	  		<a target="_blank" :href="item.url">
 	  			<div class="media-item-info">
 	  				<div class="media-img">
-	  					<van-image round width="60px" :src="'https://www.isharelike.com/'+item.pohosrc" ></van-image>
+	  					<van-image fit="scale-down" lazy-load round width="60px" :src="item.pohosrc" ></van-image>
 	  				</div>
 	  				<div class="media-info">
 	  					<h4>{{item.name}}</h4>
@@ -39,8 +39,10 @@
 	  		</a>
 	  	</div>
 	  </div>
+	  <template v-if="isScroll">
+		  <ProductList :productList="productList" @loadproductdata="loadproductdata" :productTotal="productTotal"></ProductList>
+	  </template>
 	  
-	  <ProductList :productList="productList" @loadproductdata="loadproductdata" :productTotal="productTotal"></ProductList>
 	  <NavTab/>
   </div>
 </template>
@@ -49,15 +51,14 @@
 import Swiper from '@/components/Swiper'
 import PopularProducts from "@/components/PopularProducts"
 import {shartget,Categories,celebrities} from "@/utils/indexdata.js"
-import ProductList from "@/components/ProductList"
 import NavTab from "@/components/NavTab"
-
+import {getSession,setSession} from '@/assets/js/them.js'
 export default {
   name: 'Home',
   components:{
 	  Swiper,
 	  PopularProducts,
-	  ProductList,
+	  ProductList:()=>import('@/components/ProductList'),
 	  NavTab
   },
   data(){
@@ -73,7 +74,8 @@ export default {
 		  mediaList:[],    //网红
 		  productList:[],
 		  productTotal:false,  //是否没有产品可加载
-		  index:0
+		  index:0,
+		  isScroll:false //是否执行过滚动条事件
 	  }
   },
   created() {
@@ -96,15 +98,30 @@ export default {
 		this.mediaList=celebrities
 	  }
   },
+  mounted() {
+  	document.addEventListener('scroll',this.scrollFun)
+  },
   methods:{
+	  scrollFun(){
+		  if(!this.isScroll){
+			  this.isScroll=true;
+			  document.removeEventListener('scroll',this.scrollFun);
+		  }
+	  },
 	  //获取8个折扣产品数据
 	  async getTop8DealsList(){
 		  try{
-		  	let list=await this.$api.product.getTop8DealsList();
-			if(list.rows!=''){
-				this.dealsList=list.rows;
-				this.isloading=false;
+			const sessionList=getSession('Top8DealsList');
+			if(sessionList){
+				this.dealsList=JSON.parse(sessionList);
+			}else{
+				let list=await this.$api.product.getTop8DealsList();
+				if(list.rows!=''){
+					this.dealsList=list.rows;
+					setSession('Top8DealsList',list.rows)
+				}
 			}
+		  	
 		  }catch(err){
 		  	console.log(err);
 		  }
@@ -121,7 +138,7 @@ export default {
 			  ifdx: "1",
 			  ifjk: "-1",
 			  ifkq: "-1",
-			  pageindex: 0,
+			  pageindex: this.index,
 			  sorttype: "0",
 			  sptitle: "",
 			  sptype: ""
@@ -141,6 +158,9 @@ export default {
 		 }catch(err){
 		 	console.log(err);
 		 }
+	  },
+	  _handToCate(id){
+	  	this.$router.push('productlist?pid='+id)
 	  }
   }
 }

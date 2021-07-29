@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="usercenter-box">
 		<div class="user-info">
 			<div class="user-info-unlogin" v-if="!isLogin">
 				<p>
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="usercontent-list">
+		<div class="usercontent-list" :style="{height:treeHeight}">
 			<ul>
 				<li v-for="(item,index) in menulist" :key="item.index" v-if="item.istrue">
 					<router-link :to="item.url" @click.native="signout(item)">
@@ -54,9 +54,9 @@
 				},
 				menulist:[
 					{
-						'icon':'wap-home-o',
-						'name':'Home',
-						'url':'/productlist',
+						'icon':'manager-o',
+						'name':'User',
+						'url':'/usercenter',
 						'istrue':true
 					},
 					{
@@ -119,6 +119,12 @@
 				]
 			}
 		},
+		computed:{
+			treeHeight(){
+				const winHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				return winHeight-100+'px'
+			}
+		},
 		created() {
 			let token=this.$store.getters.token;  //获取是否有登录
 			let userinfo=this.$store.getters.userInfo;
@@ -157,7 +163,7 @@
 	.user-info-unlogin p{font-size: 18px;flex: 1;color:#333}
 	.user-info-unlogin p i.van-icon-user-o{font-size:36px;padding-right: 10px;color: #CCCCCC;vertical-align: middle;}
 	.user-info-unlogin i.van-icon-arrow,.user-info-icon{width: 50px;height: 50px;display: block;text-align: center;line-height: 50px;margin:25px 0;}
-	.usercontent-list{width: 100%;height: calc(100% - 100px);overflow: auto;}
+	.usercontent-list{width: 100%;overflow: auto;}
 	.usercontent-list ul{margin-top: 20px;}
 	.usercontent-list ul li{padding-left: 20px;height: 60px;line-height: 50px;}
 	.usercontent-list ul li a{display: flex;color: #222;}

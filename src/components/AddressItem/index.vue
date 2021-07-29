@@ -29,17 +29,17 @@
 
 <script>
 	// addressInfo={id,name,tel,address,isDefault}  格式 id/名称/电话/详细地址/是否默认
+	import {mapGetters} from 'vuex'
 	export default({
 		name:'addressItem',
 		props:{
 			addressInfo:{
 				type:Object,
 				default:new Object()
-			},
-			isPay:{
-				type:Boolean,
-				default:false
 			}
+		},
+		computed:{
+			...mapGetters(['addressIsPay'])
 		},
 		created(){
 			console.log(this.addressInfo)
@@ -80,10 +80,10 @@
 			//地址点击
 			onSel(id){
 				//支付页面返回判断
-				if(this.isPay){
+				if(this.addressIsPay){
 					//添加地址id到vuex
 					this.$store.commit('pay/SET_ADDRESS_ID',id);
-					this.$router.go(-1);
+					this.$router.back();
 				}
 			}
 		},

@@ -24,7 +24,10 @@
 									<van-icon v-else name="like-o" />
 						 		</div>
 						 	</div>
-							
+							<div v-if="ptInfo.length>0" style="margin-top: 20px;">
+								<comment v-for="item in ptInfo" :key="item.orderno" :is="GroupShoppingNodeCom" 
+								:infoData="item" @jonNow="showattr('5',item.orderno)"></comment>
+							</div>
 						 </div>
 						 
 						 
@@ -89,8 +92,7 @@
 					 </div>
 					 <div v-if="isstore">
 						 <div id='parentId'>
-							 <!-- <component :is="isproductlist" :productList="productlist" @loadproductdata="loadproductdata" :productTotal="productTotal" /> -->
-							 <component :is="isproductlist" :productList="shopProductList" @loadproductdata="loadproductdata" :productTotal="shopProductTotal" />
+							<ProductList :productList="shopProductList" :replace="true" @loadproductdata="loadproductdata" :productTotal="shopProductTotal" />
 						 </div>
 					 </div>
 				 </van-tab>
@@ -115,12 +117,13 @@
 						<van-button v-if="isBtn==0" square size="large" type="warning" @click="props.skuEventBus.$emit('sku:buy')">Add Cart</van-button>
 						<van-button v-else-if="isBtn==1" square size="large" type="warning" @click="props.skuEventBus.$emit('sku:buy')">Buy Now</van-button>
 						<!-- 直接触发 sku 内部事件，通过内部事件执行 onBuyClicked 回调 -->
+						<van-button v-else-if="isBtn==3" square size="large" type="danger" @click="props.skuEventBus.$emit('sku:buy')" >Share Get</van-button>
 						<van-button v-else square size="large" type="danger" @click="props.skuEventBus.$emit('sku:buy')" >Group Shopping</van-button>
 			    </div>
 			  </template>
 		</van-sku>
 		
-		<!-- 如果免费领产品弹出层 -->
+		<!-- 如何免费领产品弹出层 -->
 		<van-popup v-model="helpShow" round position="bottom">
 			<div class="help-show">
 				<h3>Free Get Procedures</h3>
@@ -153,7 +156,8 @@
 			Header,
 			JoinSocial,
 			Swiper,
-			Loading
+			Loading,
+			ProductList:()=>import('@/components/ProductList')
 		},
 		data(){
 			return{
@@ -168,12 +172,11 @@
 					iscolor:'#c9c9c9',	//加载颜色
 					opacity:false  //背景是否透明/true为不透明
 				}, 
-				pid:0,
+				pid:this.$route.query.pid,
 				show:true,  //显示属性组件
 				sku:{},  //商品属性信息
 				goods:{},
-				isBtn:0,  //判断是点击哪个按钮，0购物车  1正常购买 2拼单
-				isproductlist:null,   //加载店铺组件
+				isBtn:0,  //判断是点击哪个按钮，0购物车  1正常购买 3拼单 2.5拼团
 				productlist:[],  //店铺产品列表
 				productTotal:false,  //是否没有产品可加载
 				index:0,
@@ -182,20 +185,37 @@
 				helpShow:false,
 				fromName:'/',
 				isSkuLoad:false,//是否已经加载sku，针对空得sku，防止重复加载
+				GroupShoppingNodeCom:null,  //拼团模块
+				ptInfo:[]  ,//拼团产品信息,
+				ptorderno:''  //拼团订单号/加入别人拼团时有用
 			}
 		},
 		beforeRouteEnter(to,from,next){
-			next(vm=>{
-				vm.fromName=from
-			})
+			let {pid}=to.query;
+			if(pid!=''){
+				next(vm=>{
+					vm.fromName=from
+				})
+			}else{
+				next(from.path)
+			}
 		},
-		created(){
-			this.pid=this.$route.params.id;
+		beforeRouteUpdate(to,from,next){
+			this.pid=to.query.pid;
+			this.activeTabName='Overview'
+			document.documentElement.scrollTop=0
 			//获取商品信息
 			this.getSCProductInfo();
-			
+			this.getSCPTOrderInfo();
 			//获取是否关注商品
-			this.getLike()
+			this.getLike();
+		},
+		created(){
+			//获取商品信息
+			this.getSCProductInfo();
+			this.getSCPTOrderInfo();
+			//获取是否关注商品
+			this.getLike();
 		},
 		computed:{
 			...mapGetters([
@@ -212,8 +232,9 @@
 			},
 			//获取商品信息
 			async getSCProductInfo(){
+				this.loading.isload=true
 				await this.$api.product.getSCProductInfo({pid:this.pid}).then((res)=>{
-					//console.log(res);
+					
 					if(res!=''){
 						this.detaildata=res;
 						this.ifpd=res.ifpd;
@@ -221,6 +242,7 @@
 						this.productimg=pimg.split(',');
 						this.goods.picture=this.productimg[0];
 						document.title=res.ptitle;
+						
 					}else{
 						this.$toast('The goods do not exist or are out of stock!')
 						if(this.fromName=='/'){
@@ -240,6 +262,17 @@
 						this.$router.push({path:this.fromName.path})
 					}
 				});
+			},
+			//获取拼团信息
+			async getSCPTOrderInfo(){
+				const res=await this.$api.product.getSCPTOrderInfo({pid:this.pid});
+				if(res && res.rows.length>0){
+					this.ptInfo=res.rows;
+					if(this.GroupShoppingNodeCom==null){
+						this.GroupShoppingNodeCom=()=>import('@/components/GroupShoppingNode');
+					}
+					
+				}
 			},
 			//获取是否关注商品
 			async getLike(){
@@ -283,7 +316,7 @@
 						this.$Toast('Please try again');
 					})
 				}else{
-					this.$router.push({path:'/login',query:{plan:this.$route.path}})
+					this.$router.push({path:'/login',query:{plan:this.$route.fullPath}})
 				}
 				
 			},
@@ -303,16 +336,17 @@
 			},
 			//切换
 			handleClick(name,title){
-				let ProductList;
+				
 				if(name=='Store'){
+					this.isstore=true;
 					//判断不一致先销毁店铺的数据
-					if(this.shopPid!=this.detaildata.pstoreid){
+					if(this.shopPid!=0 && this.shopPid!=this.detaildata.pstoreid){
+						this.$store.commit('shop/SET_PID',this.detaildata.pstoreid)
 						this.DEL_STORE_DATA()
 					}
-					if(this.productlist.length<1){
-						ProductList=()=>import('@/components/ProductList');
-						this.isproductlist=ProductList;
-						this.isstore=true;
+					
+					if(this.shopProductList.length<1){
+						
 						this.loadproductdata();
 						setTimeout(()=>{
 							this.scrollView=document.documentElement.clientHeight-document.getElementById('storeInfo').offsetHeight-105;
@@ -399,7 +433,8 @@
 				this.loading.isload=false
 			},
 			//弹出属性选择
-			showattr(el){
+			// orderno 加入已有拼团时有用
+			showattr(el,orderno=''){
 				this.loading={
 					isload:true,  //是否加载中
 					istype:'spinner',  //加载类型
@@ -410,7 +445,7 @@
 				if(el!=0){  //加入购物车不用登录，其余都要登录
 					let token=this.$store.getters.token;
 					if(!token){  //判断是否登录,未登录跳转登录
-						this.$router.push({path:'/login'})
+						this.$router.push({path:'/login',query:{plan:this.$route.fullPath}})
 					}else{
 						this.show=true;
 						if(Object.keys(this.sku).length==0){
@@ -421,6 +456,7 @@
 							this.skudata(this.intAttrdata,el)
 						}
 						this.isBtn=el
+						this.ptorderno=orderno
 					}
 				}else{
 					this.show=true;
@@ -439,6 +475,7 @@
 				if(Object.keys(this.sku).length>0){
 					if(skudata.selectedSkuComb==null){
 						this.$toast('Please select product specifications')
+						return
 					}else{
 						xdsku=skudata.selectedSkuComb.id
 					}
@@ -459,7 +496,7 @@
 						 if(res!=''){
 							 if (res.fsstate != 0) {
 								 if (res.fsstate == 2){ //登录超时
-									 this.$router.push({path:'/login',query:{plan:this.$route.path}})
+									 this.$router.push({path:'/login',query:{plan:this.$route.fullPath}})
 									 return
 								 }
 							 }else{
@@ -472,18 +509,22 @@
 					 })
 				}else if(this.isBtn==2){  //拼团
 					this.$router.push({path:'/payment',query:{skus:xdsku,pt:skudata.selectedNum}})
-				
+				}else if(this.isBtn==5){  //拼团
+					this.$router.push({path:'/payment',query:{skus:xdsku,pt:skudata.selectedNum,ptorderno:this.ptorderno}})
 				}else{  //正常购买
+					this.show=false
 					this.$store.commit('cart/SET_CART',cartInfo);
-					this.$router.push({path:'/payment',query:{skus:"'"+xdsku+"'"}})
+					if(this.isBtn==1){
+						this.$router.push({path:'/payment',query:{skus:"'"+xdsku+"'"}})
+					}else{
+						this.$toast.success('Add cart success')
+					}
+					
 				}	
 				
 			},
 			onAddCartClicked(){
 				
-			},
-			onPointClicked(item){
-				console.log(item)
 			},
 			...mapActions({
 				getProductList:'shop/getProductList'
@@ -570,5 +611,16 @@
 	.love-item-info a p{max-height:30px;line-height: 15px;overflow: hidden;display: -webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;margin:8px 0 4px}
 	.love-loading{width: 100%;text-align: center;line-height: 30px;}
 	
-
+	.van-goods-action-button--last{
+		border-top-right-radius:26.64rem !important;
+		border-bottom-right-radius:26.64rem !important;
+	}
+	.van-goods-action-button--first{
+		border-top-left-radius:26.64rem !important;
+		border-bottom-left-radius:26.64rem !important;
+	}
+	.van-goods-action-button{
+		height: 1.06667rem !important;
+		border: none !important;
+	}
 </style>

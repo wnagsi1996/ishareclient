@@ -151,7 +151,7 @@
 				detail:{},  //产品详情数据
 				tipsattr:[],  //Tips 的信息数组
 				featuresattr:[],  //features的信息数组
-				rid:'', //产品唯一rid
+				rid:this.$route.query.rid, //产品唯一rid
 				isload:{
 					isload:true
 				},  //是否加载中
@@ -160,8 +160,14 @@
 				openUrl:''  //打开的url
 			}
 		},
+		beforeRouteEnter(to,from,next) {
+			if(to.query.rid==''){
+				next('/dealslist')
+			}else{
+				next()
+			}
+		},
 		created() {
-			this.rid=this.$route.params.rid;
 			this.$api.product.getDealsInfo({did:this.rid}).then(res=>{
 				//console.log(res);
 				this.detail=res

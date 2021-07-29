@@ -56,6 +56,7 @@ const actions={
 					}
 					commit('SET_INDEX',params.pageindex+1)
 					commit('SET_PRODUCT_LIST',res.rows);
+					
 					if(res.rows.length==0){
 						commit('SET_PRODUCT_TOTAL',true)
 					}
@@ -72,6 +73,7 @@ const actions={
 			api.product.getUserStoreBaseInfoByStoreID(params).then(res=>{
 				if(res!=''){
 					commit('SET_STORE_INFO',res)
+					// commit('SET_PID',res.)
 				}
 				resolve(res);
 			}).catch(err=>{

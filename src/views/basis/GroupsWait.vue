@@ -11,11 +11,11 @@
 				</div>
 				<div class="order-state ">
 					<div class="order-state-txt">{{orderInfo.pdstate}}</div>
-					<div class="order-time" v-if="orderInfo.pdtype==0">
-						<van-count-down millisecond :time="(orderInfo.djsms)*1000" format="DD day HH:mm:ss:SSS" />
+					<div class="order-time" v-if="orderInfo.state==0">
+						<van-count-down millisecond :time="(orderInfo.djsms)*1000" format="DD day HH:mm:ss" />
 					</div>
 				</div>
-				<div class="bjWhite" v-if="orderInfo.pdtype==0">
+				<div class="bjWhite" v-if="orderInfo.state==0">
 					<div class="order-numtxt">
 						<van-icon name="friends-o" />
 						<p>Also need invite <em>{{orderInfo.alsoneednum}}</em> Friends to get this product for free</p>
@@ -159,13 +159,19 @@
 			getOrderInfo(){
 				this.$api.product.getPDProductOrderInfo_Wait({pdorderno:this.orderno}).then(res=>{
 					console.log(res) //状态0：拼单中 1：已经完成拼单 2：拼单失败 4:已经支付（等待第三方回调确认）
-					this.orderInfo=res
-					for(let i=0;i<res.alsoneednum;i++){
-						this.orderdivShow.push(i);
+					if(res.rescode==0){
+						this.orderInfo=res
+						for(let i=0;i<res.alsoneednum;i++){
+							this.orderdivShow.push(i);
+						}
+						this.orderPhoto=res.helpUserHeadimg.split(',')
+						this.address=res.UserAddr.split("^");
+						document.title=`${this.userInfo.ncname} can get it free and invite you to get free too.${res.pname}`;
+					}else{
+						
+						this.$router.push({path:`/grouphelp/${res.resdesc}`})
 					}
-					this.orderPhoto=res.helpUserHeadimg.split(',')
-					this.address=res.UserAddr.split("^");
-					document.title=`${this.userInfo.ncname} can get it free and invite you to get free too.${res.pname}`;
+					
 				}).catch(xhr=>{
 					
 				})

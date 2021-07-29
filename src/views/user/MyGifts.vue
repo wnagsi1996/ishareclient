@@ -70,6 +70,6 @@
 </script>
 
 <style>
-	.gifts-node{width: 90vw;background-color: #fff;border-radius: 5px;margin:10px auto;padding:10px}
-	.van-card{background-color: #fff;}
+	.gifts-node{width: 96vw;border-radius: 5px;margin:10px auto;}
+	.van-card{background-color: #fff;border-radius: 5px;}
 </style>

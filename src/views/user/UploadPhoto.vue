@@ -56,6 +56,7 @@
 				this.$api.user.UploadHeadimg(params).then(res=>{
 					if(res.fsstate==0){
 						this.getUserCenterInfo();
+						this.getUserInfo()
 						this.$router.go(-1);
 					}else{
 						this.$toast(res.fsmes);
@@ -64,7 +65,8 @@
 				})
 			},
 			...mapActions({
-				getUserCenterInfo:'user/getUserCenterInfo'
+				getUserCenterInfo:'userInfo/getUserCenterInfo',
+				getUserInfo:'userInfo/getUserInfo'
 			})
 		},
 		components: {

@@ -47,16 +47,16 @@ var vape = [
         "detail": [
             {
                 "imgsrc": "/productImages/43650/43650.jpg",
-                "url": "/productdetail/vapeoul-OP5-Electronic-Cigarettes-pods-4pcs%2Fone-flavor.-You-can-message-to-us-if-you-want-flavor-multipack./45945"
+                "url": "/product?pid=45945"
             }, {
                 "imgsrc": "/productImages/43381/43381.jpg",
-                "url": "/productdetail/JUUL-PODS/45852"
+                "url": "/product?pid=45852"
             }, {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB16iY0XUWF3KVjSZPhq6xclXXap/20Pcs-Lot-Vape-Pen-Pods-0-9ml-Juice-Closed-System-Pod-Vape-Cartridge-for-MYLE-Device.jpg_220x220.jpg",
-                "url": "/productdetail/20Pcs%2FLot-Vape-Pen-Pods-0.9ml-Juice-Closed-System-Pod-Vape-Cartridge-for-MYLE-Device-Electronic-Cigarette-BCD-Refillable-Pods/45829"
+                "url": "/product?pid=45829"
             }, {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB1SCvdFHSYBuNjSspiq6xNzpXaz/Original-Justfog-C601-pod-3pcs-per-pack-for-justfog-C601-starter-kit-1-7ml-capacity-top.jpg_220x220.jpg",
-                "url": "/productdetail/Original-Justfog-C601-pod-3pcs-per-pack-for-justfog-C601-starter-kit-1.7ml-capacity-top-refill-pod-cartridge/45792"
+                "url": "/product?pid=45792"
             }
         ]
         }, {
@@ -65,16 +65,16 @@ var vape = [
         "detail": [
             {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB1yDE9L5rpK1RjSZFhq6xSdXXaB/A-Touch-5pcs-pack-Replacement-Coil-Head-BF-SS316-0-5ohm-0-6ohm-1-0ohm-Coil.jpg_220x220.jpg",
-                "url": "/productdetail/A-Touch-5pcs%2Fpack-Replacement-Coil-Head-BF-SS316-0.5ohm%2F0.6ohm%2F1.0ohm-Coil-for-eGo-AIO-Electronic-Cigarette-Accessories-Cores/52190"
+                "url": "/product?pid=52190"
             }, {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB1b3qqSFXXXXbpXpXXq6xXFXXXc/5pcs-lot-Original-Eleaf-IC-Head-1-1ohm-Replacement-Coil-for-iCare-iCare-Mini-kit.jpg_220x220.jpg",
-                "url": "/productdetail/5pcs%2Flot-Original-Eleaf-IC-Head-1.1ohm-Replacement-Coil-for-iCare-%2F-iCare-Mini-kit/48082"
+                "url": "/product?pid=48082"
             }, {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB1uLVUaOnrK1Rjy1Xcq6yeDVXaE/Electronic-Cigarette-Core-F-30-ePipe-Replacement-Coil-0-8ohm-1-0ohm-Atomizer-Head-for-F30.jpg_220x220.jpg",
-                "url": "/productdetail/Electronic-Cigarette-Core-F-30-ePipe-Replacement-Coil-0.8ohm%2F1.0ohm-Atomizer-Head-for-F30-e-Pipe-Kit-5pcs%2Fpack/48062"
+                "url": "/product?pid=48062"
             }, {
                 "imgsrc": "https://ae01.alicdn.com/kf/HTB1PPQPmqQoBKNjSZJnq6yw9VXaQ/5pcs-TFV8-Baby-X4-Replacement-Coil-Head-Core-for-TFV8-V8-Baby-Subohm-Atomizer-Tank.jpg_220x220.jpg",
-                "url": "/productdetail/5pcs-TFV8-Baby-X4-Replacement-Coil-Head-Core-for-TFV8-V8-Baby-Subohm-Atomizer-Tank/48056"
+                "url": "/product?pid=48056"
             }
         ]
     }
@@ -83,35 +83,35 @@ var vape = [
 
 var shartget = [
     {
-        "url": "/productdetail/MULSH-Multi-Bin-Storage-Unit-Organizer-with-Storage-Bins-Multi-Section-Storage-Cabinet-Sturdy-Metal-Shelf-Frame-Turquoise-%EF%BC%8C31quot%3BW-x-12quot%3BD-x32quot%3BH/45741",
+        "url": "/product?pid=45741",
         "price": "$49.99",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/81JHJlCqU4L._SL320_.jpg"
     }, {
-        "url": "/productdetail/Hamilton-Beach-Food-Processor%EF%BC%8C-Slicer-and-Vegetable-Chopper-with-Compact-Storage%EF%BC%8C-8-Cups-(70740)%EF%BC%8C-Black/45740",
+        "url": "/product?pid=45740",
         "price": "$39.99",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/81k-PgciolL._SL320_.jpg"
     }, {
-        "url": "/productdetail/RUICHENXI-Waterproof-USB-Flash-Drive-64GB-Pen-Drive-Memory-USB-Stick-with-Keychain-(64GB)/41763",
+        "url": "/product?pid=41763",
         "price": "$12.99",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/51%2B8AnqYIGL._SL320_.jpg"
     }, {
-        "url": "/productdetail/Instant-Pot-Duo-Mini-3-Qt-7-in-1-Multi--Use-Programmable-Pressure-Cooker%EF%BC%8C-Slow-Cooker%EF%BC%8C-Rice-Cooker%EF%BC%8C-Steamer%EF%BC%8C-Sauteacute%3B%EF%BC%8C-Yogurt-Maker-and-Warmer/41727",
+        "url": "/product?pid=41727",
         "price": "$59.95",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/61fn5JwZYpL._SL320_.jpg"
     }, {
-        "url": "/productdetail/Giantex-Nail-Table-Station-Portable-Manicure-Tech-Desk-with-Free-Bag-Case-Sliding-Drawer-Leather-Hand-Pillow-Spa-Beauty-Salon-Technician-Equipment-Nails-Art-Table-Set-w%2FLockable-Wheels/41696",
+        "url": "/product?pid=41696",
         "price": "$79.99",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/61l6T-AN41L._SL320_.jpg"
     }, {
-        "url": "/productdetail/Radio-Flyer-Fold-2-Go-Trike/41772",
+        "url": "/product?pid=41772",
         "price": "$46.37",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/81GXs1mC8rL._SL320_.jpg"
     }, {
-        "url": "/productdetail/Solar-Charger%EF%BC%8C-8000mAh-3-Port-USB-and-21LED-Light-Solar-Power-Bank-Portable-Battery-Cellphone-Charger%EF%BC%8C-Solar-Panel-for-Emergency-Outdoor-Camping-Hiking-for-iOS-and-Android-cellphones-(Black)/45786",
+        "url": "/product?pid=45786",
         "price": "$27.99",
         "imgsrc": "https://images-na.ssl-images-amazon.com/images/I/612SEDIvAHL._SL320_.jpg"
     }, {
-        "url": "/productdetail/Original-Justfog-C601-pod-3pcs-per-pack-for-justfog-C601-starter-kit-1.7ml-capacity-top-refill-pod-cartridge/45792",
+        "url": "/product?pid=45792",
         "price": "$23.40",
         "imgsrc": "https://ae01.alicdn.com/kf/HTB1SCvdFHSYBuNjSspiq6xNzpXaz/Original-Justfog-C601-pod-3pcs-per-pack-for-justfog-C601-starter-kit-1-7ml-capacity-top.jpg_220x220.jpg"
     }
@@ -196,77 +196,77 @@ var shartget = [
 
     var love = [
         {
-            "url": "/productdetail/TR90-Soft--Flexible-Polarized-Silicone-Kids-Sunglasses-Children-Safety-Coating-Rubber-Sun-Glasses/37942",
+            "url": "/product?pid=37942",
             "yprice": "$14.91",
             "xprice": "8.05",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1gtvWdh1YBuNjy1zcq6zNcXXaK/TR90-Soft-Flexible-Polarized-Silicone-Kids-Sunglasses-Children-Safety-Coating-Rubber-Sun-Glasses.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Baby-Tooth-Box-Milk-Teeth-Wood-Storage-Collection-For-Baby-Spanish-Kids-Teeth-Box-Creative-Children-Teething-Boxes-Birthday-Gift/41364",
+            "url": "/product?pid=41364",
             "yprice": "$56.94",
             "xprice": "$28.47",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1jNgFXZfrK1RkSnb4q6xHRFXaf/Baby-Tooth-Box-Milk-Teeth-Wood-Storage-Collection-For-Baby-Spanish-Kids-Teeth-Box-Creative-Children.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Baby-Care-Air-Drying-Soft-Clay-Baby-Handprint-Footprint-Imprint-Kit-Casting-Baby-Hand-Inkpad-Fingerprint-DIY-Keepsake/41210",
+            "url": "/product?pid=41210",
             "yprice": "$41.13",
             "xprice": "$21.39",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1Q6OfX6zuK1RjSsppq6xz0XXaE/Baby-Care-Air-Drying-Soft-Clay-Baby-Handprint-Footprint-Imprint-Kit-Casting-Baby-Hand-Inkpad-Fingerprint.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/New-Beach-Swimming-Water-Sport-Socks-Anti-Slip-Shoes-Yoga-Fitness-Dance-Swim-Surfing-Diving-Underwater-Shoes-for-Kids-Men-Women/21775",
+            "url": "/product?pid=21775",
             "yprice": "$7.50",
             "xprice": "$3.83",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1f0mGIeSSBuNjy0Flq6zBpVXax/New-Beach-Swimming-Water-Sport-Socks-Anti-Slip-Shoes-Yoga-Fitness-Dance-Swim-Surfing-Diving-Underwater.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Demon-killer-Replacement-Resin-Tube-and-Drip-Tip-Mouthpiece-for-TFV8-Baby-atomizer-cleito-tank-3.5ml-Eleaf-melo-3-istick-pico/52373",
+            "url": "/product?pid=52373",
             "yprice": "$23.58",
             "xprice": "$12.97",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1ng1aavvsK1Rjy0Fiq6zwtXXaV/Demon-killer-Replacement-Resin-Tube-and-Drip-Tip-Mouthpiece-for-TFV8-Baby-atomizer-cleito-tank-3.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Swimming-goggles-HD-Anti-Fog-100%25-UV-adult-swim-goggles-with-Earplugs-Nose-clips-Case-for-Adult-Kids-in-pools-swiming/21191",
+            "url": "/product?pid=21191",
             "yprice": "$20.61",
             "xprice": "$11.34",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1ipctdsuYBuNkSmRyq6AA3pXaW/Swimming-goggles-HD-Anti-Fog-100-UV-adult-swim-goggles-with-Earplugs-Nose-clips-Case-for.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/2019-New-Manual-Electric-Breast-Pump-Partner-Breast-Feeding-Collector-Automatic-Correction-Breast-Milk-Silicone-Breast-Pump/41194",
+            "url": "/product?pid=41194",
             "yprice": "$9.84",
             "xprice": "$5.31",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1krouKXOWBuNjy0Fiq6xFxVXac/2019-New-Manual-Electric-Breast-Pump-Partner-Breast-Feeding-Collector-Automatic-Correction-Breast-Milk-Silicone-Breast.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Clocolor-Sheath-Dress-Elegant-Women-Off-Sholuder-Long-Sleeve-Stripes-Color-Block-White-Black-Bodycon-Maxi-Mermaid-Party-Dress/40787",
+            "url": "/product?pid=40787",
             "yprice": "$69.39",
             "xprice": "$38.16",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1L4ZvXN_rK1RkHFqDq6yJAFXaR/Clocolor-Sheath-Dress-Elegant-Women-Off-Sholuder-Long-Sleeve-Stripes-Color-Block-White-Black-Bodycon-Maxi.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/MOOL-12V-Security-Alarm-Strobe-Signal-Safety-Warning-Blue%2FRed-Flashing-LED-Light-Orange/52752",
+            "url": "/product?pid=52752",
             "yprice": "$9.63",
             "xprice": "$4.82",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1kPt2deuSBuNjSsplq6ze8pXa4/MOOL-12V-Security-Alarm-Strobe-Signal-Safety-Warning-Blue-Red-Flashing-LED-Light-Orange.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Dual-Screen-4K-1080P-Sports-Waterproof-Camera-Sports-DV-2.4G-Remote-Control-Sports-Camera/52684",
+            "url": "/product?pid=52684",
             "yprice": "$96.42",
             "xprice": "$52.07",
             "imgsrc": "https://ae01.alicdn.com/kf/H21638719bfb94a7ca947cc13affe0361h/Dual-Screen-4K-1080P-Sports-Waterproof-Camera-Sports-DV-2-4G-Remote-Control-Sports-Camera.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Z10-Light-Sensor-Control-Night-Light-Mini-EU-US-Plug-Novelty-Square-Bedroom-lamp-For-Baby-Gift-Romantic-Colorful-Lights/41519",
+            "url": "/product?pid=41519",
             "yprice": "$10.56",
             "xprice": "$5.81",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1oS7PCL5TBuNjSspcq6znGFXaI/Z10-Light-Sensor-Control-Night-Light-Mini-EU-US-Plug-Novelty-Square-Bedroom-lamp-For-Baby.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/3-Level-Dimmable-Clover-LED-Sensor-Desk-Light-Eye-Protection-Lamp-Flexible-Night-Lighting-Table-Lamp-With-USB-Cable-for-Study/41371",
+            "url": "/product?pid=41371",
             "yprice": "$28.77",
             "xprice": "$14.67",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1d62zKpXXXXcnXFXXq6xXFXXX9/3-Level-Dimmable-Clover-LED-Sensor-Desk-Light-Eye-Protection-Lamp-Flexible-Night-Lighting-Table-Lamp.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/2019-Dropship-New-Arrival-3D-Print-Galaxy-Moon-Lamp-Colorful-Change-Touch-Led-Night-Light--Home-Decor-Creative-Gift-Usb/41056",
+            "url": "/product?pid=41056",
             "yprice": "$47.46",
             "xprice": "$25.63",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1oziOajDuK1Rjy1zjq6zraFXaZ/2019-Dropship-New-Arrival-3D-Print-Galaxy-Moon-Lamp-Colorful-Change-Touch-Led-Night-Light-Home.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/Useful-1PC-Portable-Toothbrush-Holder-Bathroom-Accessories-Electric-Toothbrush-Case-Holder-Travel-Storage-Box/52357",
+            "url": "/product?pid=52357",
             "yprice": "$9.54",
             "xprice": "$4.87",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1_OswXOHrK1Rjy0Flq6AsaFXau/Useful-1PC-Portable-Toothbrush-Holder-Bathroom-Accessories-Electric-Toothbrush-Case-Holder-Travel-Storage-Box.jpg_220x220.jpg"
         }, {
-            "url": "/productdetail/1Pcs-Simple-Elegant-Design-Western-Stirrup-Keychain-Key-Ring-Hanger-Tool-For-Men-Women-Bag-Decoration-Equestrian-Equine-Horse/52446",
+            "url": "/product?pid=52446",
             "yprice": "$6.78",
             "xprice": "$3.39",
             "imgsrc": "https://ae01.alicdn.com/kf/HTB1ScHYbwFY.1VjSZFqq6ydbXXaw/1Pcs-Simple-Elegant-Design-Western-Stirrup-Keychain-Key-Ring-Hanger-Tool-For-Men-Women-Bag-Decoration.jpg_220x220.jpg"

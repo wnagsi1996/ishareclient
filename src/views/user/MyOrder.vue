@@ -30,6 +30,7 @@
 		</RefreshLoading>
 		<van-popup v-model="show" position="bottom" round  :style="{ minHeight: '20%' }">
 			<div class="detail-item">
+				
 				<van-card
 				  v-for="n in detail[orderno]"
 				  :key="orderno"
@@ -39,8 +40,8 @@
 				  :desc="n.ddmxsx"
 				  :title="n.ddmxtitle"
 				  :thumb="n.ddmximg"
-				  :thumb-link="link(n)"
 				  class="card-item"
+				  @click="toURL(n)"
 				>
 				<template #tags>
 				    <p>State:{{n.ddmxzt | state}}</p>
@@ -104,22 +105,16 @@
 			[Button.name]:Button,
 			[Dialog.Component.name]: Dialog.Component
 		},
-		computed:{
-			link(){
-				return (item)=>{
-					let orderno=this.orderno;
-					if(orderno.includes('PT')){
-						let no=orderno.substring (0,orderno.length-3);
-						return `/groupswaitbuy/${no}`
-					}else{
-						return `/productdetail/${item.ddmxtitle}/${item.ddpid}`
-					}
-				}
-			}
-		},
-		created() {
-		},
 		methods:{
+			toURL(item){
+				let orderno=this.orderno;
+				if(orderno.startsWith('PT')){
+					let orderattr=orderno.split("_");
+					this.$router.push(`/groupswaitbuy/${orderattr[0]}`) 
+				}else{
+					this.$router.push(`/product?pid=${item.ddpid}`) 
+				}
+			},
 			load(i=0){
 				if(i!=0){
 					this.index=0
@@ -128,20 +123,20 @@
 					ddzt:this.orderState,
 					pageindex:this.index
 				}
+				
 				this.$api.user.getMySCSaleList(params).then(res=>{
 					console.log(res);
 					
-					if(res.rows!=''){
+					if(res.rows.length>0){
 						if(i!=0){
-							this.list=[]
+							this.list=[];
+							this.ismore=false
 						}
 						this.index++
 						this.list=[...this.list,...res.rows]
-						if(res.rows.length==0){
-							this.ismore=true
-						}
 					}else{
-						this.$toast('Data Null')
+						this.ismore=true
+						//this.$toast('Data Null')
 					}
 				}).catch(err=>{
 					this.$toast('Data loading error')
@@ -170,7 +165,7 @@
 					      await this.$api.user.cancelSCOrder({orderno}).then(res=>{
 							  if(res.fsstate=='1'){
 								  this.$toast('Order canceled');
-								  this.load('1')
+								  this.load(1)
 							  }else{
 								  this.$toast(res.fsmes);
 							  }

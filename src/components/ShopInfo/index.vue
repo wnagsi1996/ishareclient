@@ -108,9 +108,9 @@
 			//打开页面
 			openUrl(){
 				if(this.ishome){
-					this.$router.push({path:'/shopdetail/'+this.id})
+					this.$router.replace({path:'/shopdetail/'+this.id})
 				}else{
-					this.$router.push({path:'/shop/'+this.id})
+					this.$router.replace({path:'/shop/'+this.id})
 				}
 			},
 			...mapActions({
@@ -144,9 +144,9 @@
 	.store-info{display: flex;}
 	.store-info-img{width: 70px;}
 	.store-info-node{flex: 1;}
-	.store-info-p p{font-size:18px}
+	.store-info-p p{font-size:18px;}
 	.store-info-btn{display: flex;align-items: center;margin-top: 10px;justify-content:space-between;}
-	.store-info-btn p{width:50%}
+	.store-info-btn p{width:50%;color: #777;}
 	.store-info-btn p:first-child{display:flex;align-items: center;}
 	.store-info-btn p:first-child span{padding-left:5px}
 	.active{color: red;}

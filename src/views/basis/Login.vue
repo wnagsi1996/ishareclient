@@ -103,7 +103,7 @@
 					if(login){
 						await this.$store.dispatch('user/getInfo');
 						//登陆成功后重定向
-						this.$router.push({
+						this.$router.replace({
 							path: this.$route.query.plan || '/user'
 						})
 					}
