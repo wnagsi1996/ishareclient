@@ -22,15 +22,15 @@ const mutations={
 		}
 		window.localStorage.setItem('cart',JSON.stringify(state.cart));
 	},
-	DEL_CART:(state,cartsku)=>{console.log(state.cart)
+	DEL_CART:(state,cartsku)=>{console.log(cartsku)
 		let newcart=[];
 		state.cart.forEach(item=>{
 			if(item.sku!=cartsku){
 				newcart.push(item)
 			}
 		})
-		state.cart=newcart;
-		window.localStorage.setItem('cart',JSON.stringify(newcart));
+		state.cart=newcart;console.log(state.cart)
+		window.localStorage.removeItem('cart',JSON.stringify(newcart));
 	},
 	DELALL_CART:(state)=>{
 		state.cart=[]

@@ -159,59 +159,64 @@
 				
 				this.$api.product[urlname]({skus:this.skus}).then(res=>{console.log(res)
 					let list= res.rows;
-					if(this.cartproduct.length==0){  //第一次加载
-						list.forEach(item=>{
-							if(this.ifpt=='' || this.ifpt==undefined){
-								cartproduct.forEach(n=>{
-									if(item.sku==n.sku){
-										if(item.num<n.num){
-											this.$toast(item.sptitle+' Inventory shortage, has automatically switched the maximum number of purchase')
-											this.iforder=false;
-										}else{
-											item.num=n.num
+					if(list==0){
+						this.$router.back()
+					}else{
+						if(this.cartproduct.length==0){  //第一次加载
+							list.forEach(item=>{
+								if(this.ifpt=='' || this.ifpt==undefined){
+									cartproduct.forEach(n=>{
+										if(item.sku==n.sku){
+											if(item.num<n.num){
+												this.$toast(item.sptitle+' Inventory shortage, has automatically switched the maximum number of purchase')
+												this.iforder=false;
+											}else{
+												item.num=n.num
+											}
 										}
-									}
-								});
-							this.totalPrice+=item.spdj*item.num
-							}else{
-								item.num=this.ifpt
-								this.totalPrice+=item.spdj*eval(this.ifpt)
-							}
+									});
+								this.totalPrice+=item.spdj*item.num
+								}else{
+									item.num=this.ifpt
+									this.totalPrice+=item.spdj*eval(this.ifpt)
+								}
+								
+								item.check=false
+								if (item.ifkq == 0){ //只要有一个商品不是卡券，则该订单为实物商品，必须提供收件地址和计算运费
+									this.ifsw = 1;
+								}
+							});
 							
-							item.check=false
-							if (item.ifkq == 0){ //只要有一个商品不是卡券，则该订单为实物商品，必须提供收件地址和计算运费
-								this.ifsw = 1;
-							}
-						});
-						
-							
-						console.log(list)
-						this.cartproduct=list;
-						this.getCoupu();
-					}else{   //点击支付再次获取计算
-						list.forEach(item=>{
-							if(this.ifpt=='' || this.ifpt==undefined){
-								this.cartproduct.forEach(n=>{
-									if(item.sku==n.sku){
-										if(item.cangmnum<n.num){
-											this.$toast('Some of the information you have purchased has changed!')
-											this.disabled=false
-											return;
+								
+							console.log(list)
+							this.cartproduct=list;
+							this.getCoupu();
+						}else{   //点击支付再次获取计算
+							list.forEach(item=>{
+								if(this.ifpt=='' || this.ifpt==undefined){
+									this.cartproduct.forEach(n=>{
+										if(item.sku==n.sku){
+											if(item.cangmnum<n.num){
+												this.$toast('Some of the information you have purchased has changed!')
+												this.disabled=false
+												return;
+											}
+											this.gmfs+=n.num+',';
 										}
-										this.gmfs+=n.num+',';
-									}
-									//this.gmfs+="'" + n.num + "',";
-									
-								})
+										//this.gmfs+="'" + n.num + "',";
+										
+									})
+								}
+								
+							})
+							
+							if(this.disabled){
+								this.paysubmit2();
 							}
 							
-						})
-						
-						if(this.disabled){
-							this.paysubmit2();
 						}
-						
 					}
+					
 					
 				}).catch(xhr=>{
 					
@@ -352,7 +357,7 @@
 							if(resjson.fzffs==0){  //余额支付
 								//this.$toast('Successful Payment.');
 								if(this.ifpt){
-									this.$router.push({path:`/groupswaitbuy/${resjson.fsmes}`});
+									this.$router.push({path:`/groupswaitbuy?orderno=${resjson.fsmes}`});
 								}else{
 									this.$router.push({path:'/paymentsuccessful'});
 								}
@@ -367,11 +372,11 @@
 									var ua = navigator.userAgent.toLowerCase();
 									var isWeixin = ua.indexOf('micromessenger') != -1;
 									if (!isWeixin) {
-										window.location.href = "/PayMent/WXPay/example/NativePayPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
+										window.location.href = "https://www.isharelike.com/PayMent/WXPay/example/NativePayPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
 									}
 									else {
 										if (resjson.fwxpay == 0)
-											window.location.href = "/PayMent/WXPay/example/ProductPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
+											window.location.href = "https://www.isharelike.com/PayMent/WXPay/example/ProductPage.aspx?rid=" + resjson.fsmes + "&tid=/paymentsuccessful?orderno=" + resjson.fsmes;
 										else
 											wxPayjsApiCall(resjson.fwxJsApiParam, "/paymentsuccessful?orderno=" + resjson.fsmes, "/myorder");
 									}

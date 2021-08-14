@@ -43,6 +43,9 @@ const product={
 	Get_MyCarSCProductsSaleList(params){
 		return get(`${base.WebHandler}?cmd=Get_MyCarSCProductsSaleList`,params)
 	},
+	getNewsContent(params){
+		return get(`${base.WebHandler}?cmd=getNewsContent`,params)
+	},
 	//获取拼团产品信息
 	Get_MyCarSCProductsSaleList_PT(params){
 		return get(`${base.WebHandler}?cmd=Get_MyCarSCProductsSaleList_PT`,params)

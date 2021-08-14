@@ -5,16 +5,16 @@ const resolve = function(dir) {
 
 // const webpack=require('webpack')
 module.exports={
-	publicPath: process.env.NODE_ENV === 'production' ? '../isharechield' : '/',
+	publicPath: process.env.NODE_ENV === 'production' ? '../mobile' : '/',
 	productionSourceMap: false,
-	outputDir:'isharechield',
+	outputDir:'mobile',
 	devServer:{
 		// host: "192.168.123.122",
 		// port: "8090",
 		proxy:{
 			'/Handler':{   //访问路径，可以自己设置，
 				// target:'https://www.isharelike.com',  //代理接口，即后端运行所在的端口
-				target:'http://192.168.123.122',  //代理接口，即后端运行所在的端口
+				target:'http://192.168.1.5',  //代理接口，即后端运行所在的端口
 				changeOrigin:true,  //设置是否跨域
 				pathRewrite:{
 					'^/Handler':''  //访问路径重写

@@ -10,13 +10,13 @@
 				<div class="cart-content">
 					<van-swipe-cell v-for="(item,value) in cartproduct" :key="value" class="goods-swipe">
 						<div class="goods-item">
-							<van-checkbox v-model="item.check" class="goods-check" @click="countPrice" />
+							<van-checkbox v-model="item.check" class="goods-check" @change="_handChang" />
 							<van-card num="2" :price="item.spdj" :title="item.sptitle" :thumb="item.pimg" currency="$" class="goods-card">
 							  <template #tags>
 							    <van-tag plain type="danger">{{item.skuattr}}</van-tag>
 							  </template>
 							  <template #num>
-								  <van-stepper v-model="item.num" @change="countPrice" :name="item.sku" />
+								  <van-stepper v-model="item.num" @change="_handNumChang(item)" :name="item.sku" />
 							  </template>
 							</van-card>
 						</div>
@@ -26,7 +26,7 @@
 					</van-swipe-cell>
 				</div>
 				<van-submit-bar :price="totalPrice" :button-text="buttonText" @submit="onSubmit" currency="$" class="cart-submit" >
-					<van-checkbox v-model="checked" @change="selectall">Select all</van-checkbox>
+					<van-checkbox v-model="checked" @click="selectall">Select all</van-checkbox>
 				</van-submit-bar>
 				<div class="cart-submit-null"></div>
 			</div>
@@ -61,10 +61,20 @@
 			return{
 				cartproduct:[],
 				checked:false,
-				totalPrice:0,
 				switchRun:'Edit',
 				buttonText:'Pay',
 				cartShow:false
+			}
+		},
+		computed:{
+			totalPrice(){
+				let num=0;
+				this.cartproduct.forEach(item=>{
+					if(item.check){
+						num+=item.spdj*item.num
+					}
+				})
+				return num*100;
 			}
 		},
 		created() {
@@ -92,6 +102,7 @@
 							item.check=false
 						});
 						this.cartproduct=list;
+						
 					}).catch(xhr=>{
 						
 					})
@@ -111,48 +122,50 @@
 					this.$router.push({path:'/payment',query:{skus:skus}})
 					
 				}else{
-					this.$store.commit('cart/DELALL_CART');
-					this.cartproduct==[]
+					if(skus.includes(',')){
+						let sku=skus.split(',');
+						for(let item of sku){
+							this.$store.commit('cart/DEL_CART',item.substring(1,item.length-1));
+							this.cartproduct=this.cartproduct.filter(n=>n.sku!=item.substring(1,item.length-1));
+						}
+					}else{
+						this.$store.commit('cart/DEL_CART',skus.substring(1,skus.length-1));
+						this.cartproduct=this.cartproduct.filter(item=>item.sku!=skus.substring(1,skus.length-1));
+					}
 				}
 			},
 			//全选
-			selectall(e){
-				let price=0;
-				this.cartproduct.forEach(item=>{
-					if(e){
-						item.check=true;
-						price+=item.spdj*item.num;
-					}else{
-						item.check=false
-					}
-				})
-				this.totalPrice=e?price*100:0
-			},
-			//计算总价
-			countPrice(value='',detail={}){
-				let price=0;
-				this.cartproduct.forEach(item=>{
-					if(item.check){
-						price+=item.spdj*item.num;
-					}
-				})
-				this.totalPrice=price*100;
-				let cartproduct=this.$store.getters.cart;
-				if(detail.name!=''){
-					let obj={};
-					cartproduct.forEach(item=>{
-						if(item.sku==detail.name){
-							let val=eval(value)-eval(item.num)
-							obj={
-								sku:item.sku,
-								num:val,
-								price:item.price
-							};
-							
-						}
+			selectall(){
+				if(this.checked){
+					this.cartproduct.forEach(item=>{
+						item.check=true
 					})
-					this.$store.commit('cart/SET_CART',obj)
+				}else{
+					this.cartproduct.forEach(item=>{
+						item.check=false
+					})
 				}
+			},
+			//选择
+			_handChang(item){
+				this.isallcheck()
+			},
+			//数量变化
+			_handNumChang(detail){
+				let cartproduct=this.$store.getters.cart;
+				cartproduct.forEach(item=>{
+					if(item.sku==detail.sku){
+						let y=Number(detail.num);
+						let x=Number(item.num);
+						let obj={
+							sku:detail.sku,
+							num:y-x,
+							price:detail.price
+						};
+						this.$store.commit('cart/SET_CART',obj)
+					}
+				})
+				
 			},
 			//删除
 			delprocuct(sku){
@@ -162,11 +175,15 @@
 			statuSwitch(){
 				if(this.switchRun=='Edit'){
 					this.switchRun='Complete'
-					this.buttonText='Delete All'
+					this.buttonText='Delete'
 				}else{
 					this.switchRun='Edit'
 					this.buttonText='Pay'
 				}
+			},
+			//获取选中状态
+			isallcheck(){
+				this.checked=this.cartproduct.every(n=>n.check==true)
 			}
 		}
 	})

@@ -63,7 +63,7 @@
 				})
 			},
 			onClick(orderno){
-				this.$router.push({path:'/groupswait/'+orderno})
+				this.$router.push({path:'/groupswait?orderno='+orderno})
 			}
 		}
 	})

@@ -65,7 +65,7 @@
 			}
 		},
 		created() {
-			this.orderno=this.$route.params.orderno;
+			this.orderno=this.$route.query.orderno;
 			this.getPDOrderInfo();
 		},
 		methods:{
@@ -97,7 +97,7 @@
 									this.$toast('Help Success');
 									this.isHelp=true
 								}else{  //帮助自己并发起拼单
-									this.$router.push({path:'/groupswait/'+res.fsmes+'?nc='+this.orderInfo.loginname+'pdnum=1'})
+									this.$router.push({path:'/groupswait?orderno='+res.fsmes+'&nc='+this.orderInfo.loginname+'pdnum=1'})
 								}
 								break;
 							case 1:
@@ -113,7 +113,7 @@
 								 return
 							 }
 						 }else{
-							 this.$router.push({path:'/groupswait/'+res.fsmes})
+							 this.$router.push({path:'/groupswait?orderno='+res.fsmes})
 							 return
 						 }
 					 }

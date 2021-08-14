@@ -3,7 +3,7 @@
 		<van-tabbar v-model="active" placeholder @change="onChange">
 			<van-tabbar-item name="home" icon="home-o">Home</van-tabbar-item>
 			<van-tabbar-item name="productlist" icon="goods-collect-o">Product</van-tabbar-item>
-			<van-tabbar-item name="cart" icon="shopping-cart-o">Cart</van-tabbar-item>
+			<van-tabbar-item name="cart" icon="shopping-cart-o" :badge="cartnum">Cart</van-tabbar-item>
 			<van-tabbar-item name="user" icon="manager-o">User</van-tabbar-item>
 		</van-tabbar>
 	</div>
@@ -14,6 +14,7 @@
 		Tabbar,
 		TabbarItem
 	} from 'vant';
+	import {mapGetters} from 'vuex'
 	export default ({
 		name: 'NavTab',
 		components: {
@@ -25,7 +26,16 @@
 				active:''
 			}
 		},
+		computed:{
+			cartnum(){
+				return this.cart.length==0?'':this.cart.length
+			},
+			...mapGetters([
+				'cart'
+			])
+		},
 		created() {
+			console.log(this.$store.state.cart.cart)
 			switch (this.$route.path) {
 				case '/':
 					this.active = 'home';

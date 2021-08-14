@@ -108,9 +108,9 @@
 			//打开页面
 			openUrl(){
 				if(this.ishome){
-					this.$router.replace({path:'/shopdetail/'+this.id})
+					this.$router.replace({path:'/shopdetail?id='+this.id})
 				}else{
-					this.$router.replace({path:'/shop/'+this.id})
+					this.$router.replace({path:'/shop?id='+this.id})
 				}
 			},
 			...mapActions({

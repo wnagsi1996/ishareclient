@@ -104,7 +104,7 @@
 					{
 						'icon':'gift-card-o',
 						'name':'Free Gifts',
-						'url':'/freeproductlist'
+						'url':'/freelist'
 					},
 					{
 						'icon':'chat-o',

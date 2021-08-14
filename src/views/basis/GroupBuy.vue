@@ -87,7 +87,7 @@
 		},
 		data(){
 			return{
-				orderno:this.$route.params.orderno, //拼团订单号
+				orderno:this.$route.query.orderno, //拼团订单号
 				orderInfo:{},
 				loading:{//加载组件
 					isload:true,  //是否加载中
@@ -107,7 +107,7 @@
 			}
 		},
 		beforeRouteEnter(to,from,next) {
-			if(to.params.orderno!='' && to.params.orderno){
+			if(to.query.orderno!='' && to.query.orderno){
 				next()
 			}else{
 				next(from.path)
@@ -137,7 +137,7 @@
 					}else if(res.rescode==2){
 						let orderno=res.resdesc
 					}else if(res.rescode==4){
-						this.$router.push(`/groupswaitbuy/${res.resdesc}`)
+						this.$router.push(`/groupswaitbuy?orderno=${res.resdesc}`)
 					}else{
 						this.$message.warning('data loading fail')
 					}

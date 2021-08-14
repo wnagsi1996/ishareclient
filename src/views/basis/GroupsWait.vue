@@ -151,7 +151,7 @@
 			...mapGetters(['userInfo'])
 		},
 		created() {
-			this.orderno=this.$route.params.orderno;
+			this.orderno=this.$route.query.orderno;
 			this.getOrderInfo();
 		},
 		methods:{
@@ -169,7 +169,7 @@
 						document.title=`${this.userInfo.ncname} can get it free and invite you to get free too.${res.pname}`;
 					}else{
 						
-						this.$router.push({path:`/grouphelp/${res.resdesc}`})
+						this.$router.push({path:`/grouphelp?orderno=${res.resdesc}`})
 					}
 					
 				}).catch(xhr=>{
@@ -290,7 +290,7 @@
 	.order-info-friendscen{display: flex;justify-content: space-between;flex-wrap: wrap;}
 	/* .order-info-friendsall{text-align: right;padding:0 5px 5px 0;color: #e41c1d;} */
 	.order-info-friendsdesc{width:16vw;height:16vw;line-height:18vw;margin:8px 0;border-radius: 50%;text-align: center;border:1px dashed #E41C1D}
-	.order-info-friendsdesc img{width: 100%;}
+	.order-info-friendsdesc img{width: 100%;border-radius: 50%;}
 	.order-info-friendsdesc span{font-size: 36px;color: #E41C1D;}
 	.order-buy-desc{display: flex;margin-top:20px;align-items: flex-end;}
 	.order-buy-price{width: 50%;}

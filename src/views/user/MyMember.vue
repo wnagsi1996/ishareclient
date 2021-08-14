@@ -70,7 +70,7 @@
 			//打开二级会员
 			openMember(num,hyid){
 				if(num!=0){
-					this.$router.push({path:'/mymembers2/'+hyid})
+					this.$router.push({path:'/mymembers2?id='+hyid})
 				}
 			}
 		}

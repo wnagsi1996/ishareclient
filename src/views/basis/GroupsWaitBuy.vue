@@ -67,7 +67,7 @@
 		},
 		data(){
 			return{
-				orderno:this.$route.params.orderno, //拼团订单号
+				orderno:this.$route.query.orderno, //拼团订单号
 				orderInfo:{},
 				loading:{//加载组件
 					isload:true,  //是否加载中
@@ -79,7 +79,7 @@
 			}
 		},
 		beforeRouteEnter(to,from,next) {
-			if(to.params.orderno!='' && to.params.orderno){
+			if(to.query.orderno!='' && to.query.orderno){
 				next()
 			}else{
 				next(from.path)
@@ -98,17 +98,17 @@
 			getOrderInfo(){
 				this.$api.product.getPDProductOrder_FreeWait({pdorderno:this.orderno}).then(res=>{
 					console.log(res) //状态0：拼单中 1：已经完成拼单 2：拼单失败 4:已经支付（等待第三方回调确认）
+					Object.assign(this.loading,{isload:false})
 					if(res.rescode==0){
 						this.liimgs=res.liimgs.split(',');
 						Object.assign(this.orderInfo,res)
-						Object.assign(this.loading,{isload:false})
 					}else if(res.rescode==2){
-						this.$router.push(`/groupsbuy/${res.resdesc}`)
+						this.$router.push(`/groupsbuy?orderno=${res.resdesc}`)
 					}else if(res.rescode==3){
-						this.$message.warning(res.resdesc);
+						this.$toast(res.resdesc);
 						this.$router.back()
 					}else{
-						this.$message.warning('data loading fail')
+						this.$toast('data loading fail')
 					}
 				}).catch(xhr=>{
 					

@@ -48,7 +48,7 @@
 		},
 		data() {
 			return {
-				orderno: this.$route.params.orderno,
+				orderno: this.$route.query.orderno,
 				orderInfo: {},
 				isattr:false, //是否有属性
 				loading:{//加载组件
@@ -85,7 +85,7 @@
 					this.orderInfo = Object.assign({}, res)
 				} else if (res.rescode == 4) {
 					this.$router.push({
-						path: `/groupswait/${res.resdesc}`
+						path: `/groupswait?orderno=${res.resdesc}`
 					})
 				}
 			},

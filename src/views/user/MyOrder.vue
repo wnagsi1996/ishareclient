@@ -110,7 +110,7 @@
 				let orderno=this.orderno;
 				if(orderno.startsWith('PT')){
 					let orderattr=orderno.split("_");
-					this.$router.push(`/groupswaitbuy/${orderattr[0]}`) 
+					this.$router.push(`/groupswaitbuy?orderno=${orderattr[0]}`) 
 				}else{
 					this.$router.push(`/product?pid=${item.ddpid}`) 
 				}

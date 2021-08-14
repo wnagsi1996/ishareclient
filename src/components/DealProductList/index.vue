@@ -143,7 +143,7 @@
 </script>
 
 <style scoped>
-	.love-item{display: flex;flex-wrap:wrap;margin:10px auto 0;justify-content: space-between;}
+	.love-item{display: flex;flex-wrap:wrap;margin:10px auto 0;justify-content: space-between;background-color: #fff;}
 	.love-item-info{width: 50vw;padding: 0 2vw;border-bottom: 1px solid #ccc;box-sizing: border-box;}
 	.love-item-info:first-child,.love-item-info:nth-child(2){border-top: 1px solid #ccc;}
 	.love-item-info:nth-child(odd){border-right: 1px solid #ccc;}

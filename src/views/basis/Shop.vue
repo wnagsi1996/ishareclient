@@ -33,7 +33,7 @@
 		},
 		data(){
 			return{
-				id:this.$route.params.id,
+				id:this.$route.query.id,
 				// productList:[],
 				// productTotal:false,
 				// index:0,

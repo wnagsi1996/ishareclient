@@ -35,11 +35,8 @@
 				ismore:false,
 				list:[],
 				index:0,
-				id:''
+				id:this.$route.query.id
 			}
-		},
-		created(){
-			this.id=this.$route.params.id;console.log(this.id)
 		},
 		methods:{
 			load(i=0){

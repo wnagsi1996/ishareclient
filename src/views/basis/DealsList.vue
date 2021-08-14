@@ -237,7 +237,7 @@
 </script>
 
 <style>
-	.nav-search{height: 40px;display: flex;align-items: center;overflow: auto;position: fixed;left: 0;top:50px;background-color: #f7f7f7;position: fixed;left: 0;top:40px;z-index: 2;width: 100%;}
+	.nav-search{height: 40px;display: flex;align-items: center;overflow: auto;position: fixed;left: 0;top:50px;background-color: #f7f7f7;position: fixed;left: 0;top:50px;width: 100%;}
 	.nav-search-key{border-radius: 20px;border: 1px solid #ccc;padding:0 10px;margin:0 10px;flex: none;}
 	.nav-search-key.nav-search-key-aceive{border: 1px solid #e41c1d;color: #e41c1d;}
 	.nav-search-key p{height:26px;line-height:26px;margin:0 auto;display: flex;align-items: center;justify-content: center;}

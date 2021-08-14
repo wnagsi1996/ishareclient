@@ -104,7 +104,7 @@
 						await this.$store.dispatch('user/getInfo');
 						//登陆成功后重定向
 						this.$router.replace({
-							path: this.$route.query.plan || '/user'
+							path: this.$route.query.plan || '/usercenter'
 						})
 					}
 					this.disabled = false;

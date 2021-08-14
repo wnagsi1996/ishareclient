@@ -25,22 +25,33 @@ const IsPC = () => {
 }
 
 router.beforeEach((to, from, next) => {
-	if (IsPC()) {
-		if (process.env.NODE_ENV == 'production') {
-
+	if (process.env.NODE_ENV == 'production'){
+		const {protocol,hostname} =window.location;console.log(protocol);
+		if (IsPC()) {
 			if (to.path.includes('/pc')) {
 				setSession('autopc', to.fullPath.substring(3))
-			} else {
+			}else{
 				setSession('autopc', to.fullPath)
 			}
-			window.location.href = "/pc";
+			if(protocol=='http' && !hostname.includes('192.168')){
+				window.location.href = "https://www.isharelike.com/pc";
+			}else{
+				window.location.href = "/pc";
+			 }
+			
 			return;
+		}else{
+			if(protocol=='http:' && !hostname.includes('192.168')){
+				window.location.href = `https://www.isharelike.com/mobile${to.fullPath}`;
+			}
+			const path=getSession('automobile');console.log(path)
+			removeSession('automobile');
+			if(path){
+				next(path.substring(1,path.length-1))
+			}
 		}
 	}
-
-	if (to.fullPath.includes('/pc')) {
-		next(to.fullPath.substring(3))
-	}
+	
 
 	//路由未匹配直接跳转404
 	if (to.matched.length == 0) {

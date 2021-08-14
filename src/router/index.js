@@ -16,7 +16,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/home',
+		path: '/mobile',
 		name: 'Home',
 		redirect:'/'
 	},
@@ -102,7 +102,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/groupswait/:orderno',
+		path: '/groupswait',
 		name: 'GroupsWait',
 		component: () => import('@/views/basis/GroupsWait.vue'),
 		meta: {
@@ -111,7 +111,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/groups/:orderno',
+		path: '/groups',
 		name: 'Groups',
 		component: () => import('@/views/basis/Groups.vue'),
 		meta: {
@@ -120,7 +120,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/grouphelp/:orderno',
+		path: '/grouphelp',
 		name: 'GroupHelp',
 		component: () => import('@/views/basis/GroupHelp.vue'),
 		meta: {
@@ -130,7 +130,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/groupsbuy/:orderno',
+		path: '/groupsbuy',
 		name: 'GroupsBuy',
 		component: () => import('@/views/basis/GroupBuy.vue'),
 		meta: {
@@ -139,7 +139,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/groupswaitbuy/:orderno',
+		path: '/groupswaitbuy',
 		name: 'GroupsWaitBuy',
 		component: () => import('@/views/basis/GroupsWaitBuy.vue'),
 		meta: {
@@ -149,7 +149,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/freeproductlist',
+		path: '/freelist',
 		name: 'FreeProductList',
 		component: () => import('@/views/basis/FreeProductList.vue'),
 		meta: {
@@ -185,7 +185,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/shop/:id',
+		path: '/shop',
 		name: 'Shop',
 		component: () => import('@/views/basis/Shop.vue'),
 		meta: {
@@ -194,7 +194,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/shopdetail/:id',
+		path: '/shopdetail',
 		name: 'ShopDetail',
 		component: () => import('@/views/basis/ShopDetail.vue'),
 		meta: {
@@ -222,7 +222,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/mymembers2/:id',
+		path: '/mymembers2',
 		name: 'MyMembers2',
 		component: () => import('@/views/user/MyMember2.vue'),
 		meta: {
@@ -453,7 +453,8 @@ const routes = [
 
 const router = new VueRouter({
 	mode: 'history',
-	base: "",
+	// base: "",
+	base: process.env.NODE_ENV === "production" ? "mobile" : "/",
 	routes
 })
 

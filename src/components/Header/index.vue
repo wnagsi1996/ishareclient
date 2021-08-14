@@ -92,10 +92,19 @@
 		  },
 		  //选中分享
 		  selShare(val){
-			  let userinfo=this.$store.getters.userInfo;
+			  let {userInfo}=this.$store.getters;console.log(userInfo)
 			  let url='';
 			  if(this.url==''){
-				  this.url=window.location.href+'?u='+userinfo.uid
+				  const {
+				  	host,
+				  	pathname,
+				  	search
+				  } = window.location;
+				  if(search && search!=''){
+					  this.url=`${host}${pathname}${search}&u=${userInfo.uid}`
+				  }else{
+					  this.url=`${host}${pathname}?u=${userInfo.uid}`
+				  }
 			  }
 			  url=this.url;
 			  switch (val.name){
@@ -125,7 +134,7 @@
 						text:()=>{
 							return this.url
 						}
-					});console.log(clipboard)
+					});
 					  clipboard.on('success', e => {
 						  this.$toast('Copy Success')
 						//console.log('复制成功')
@@ -139,6 +148,7 @@
 						// 释放内存
 						clipboard.destroy();
 					  })
+					  this.showShare=false;
 					break;
 			  }
 		  },
